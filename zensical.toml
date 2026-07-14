@@ -53,6 +53,8 @@ nav = [
       "languages/modern-c/controls.md",
       "languages/modern-c/expressions.md",
       "languages/modern-c/basic-types.md",
+      "languages/modern-c/week1-2-exercises.md",
+      "languages/modern-c/derived-types.md",
     ] },
     { "现代 C++" = [
       "languages/modern-cpp/index.md"

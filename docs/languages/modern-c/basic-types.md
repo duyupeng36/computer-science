@@ -1390,7 +1390,7 @@ if (fabs(a - b) < 1E-9) { ... }
 | `DBL_MIN`      | `double` 最小正值 | $2^{-1022}$          |
 | `DBL_MAX`      | `double` 最大值   | $2^{1024} - 2^{971}$ |
 
-!!! wanring
+!!! warning
 
     注意：`DBL_MIN` 是大于 $0$ 的最小值，不是最小负数（最小负数是 `-DBL_MAX`）。
 
