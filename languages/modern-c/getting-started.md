@@ -17,7 +17,7 @@ int main(void) {
 2. `printf(...)` 调用一个名为 `printf` 的函数，它是来自 `<stdio.h>` 中声明的输出函数，用于向屏幕输出格式化文本
 3. `return 0;` 表示程序终止时向操作系统返回值 $0$
 
-> **💡 提示：C 程序: 使用 `.c` 作为扩展名表示该文件的内容是 C 语言编写的程序**
+> [!TIP]
 > 本质上来说，C 程序是由程序员编写的一个文本文件，存储在磁盘上的某个位置；它表示我们希望计算机做的事情。
 
 C 程序表示的是我们希望计算机做的事情，但是计算机无法理解它。这里，我们需要一个称为 **编译器** 的特殊程序，它会帮助我们将 C 程序翻译为计算机可以理解的 **二进制代码(可执行文件)**。下图说明了其中存在的关系
@@ -28,7 +28,7 @@ graph LR
     B --> C["🖥️ 计算机执行"]
 ```
 
-> **💡 提示：核心流程：.c 源文件 → 编译器 → 可执行文件 → 计算机执行**
+> [!TIP]
 > 简单说：源文件是程序员写的，可执行文件是机器跑的，**编译器**是中间的翻译官
 
 [GCC] 是目前使用最广泛的 C 编译器，大部分 Linux 发行版都是内置了这个编译器程序，通常命名为 `cc` 或者 `gcc`。我们可以尝试使用下面的命令编译器示例程序
@@ -78,7 +78,7 @@ int main(void) {
 
 在编译前把 `<stdio.h>` 中的信息复制到程序中。`<stdio.h>` 包含 C 标准输入输出库的信息。C 语言拥有大量类似于 `<stdio.h>` 的**头文件**，每个头文件都包含一些标准库的内容。
 
-> **💡 提示：C 语言没有内置的输入输出**
+> [!TIP]
 > 这段程序中包含 `<stdio.h>` 的原因是 C 语言不同于其他的编程语言，它没有内置的 **读** 和 **写** 命令。**输入/输出功能由标准库中的函数实现**
 
 所有的预处理指令都是以字符 `#` 开始的。这个字符可以把 C 程序中的预处理指令和其他代码区分开来。**预处理指令默认只占一行**，每条预处理指令的**结尾没有分号**或**其他特殊标记**
@@ -87,12 +87,12 @@ int main(void) {
 
 **函数** 是用来构建 C 程序的基本构件块。事实上，C 程序就是函数的集合；这些函数可以分为两类：**自定义函数** 和 **库函数**
 
-> **📝 说明：函数: 赋予名字的语句序列**
+> [!NOTE]
 > C 语言中的函数仅仅是一系列组合在一起并且被赋予了名字的 **语句**
 
 C 程序由一系列的函数组成；这些函数中有一个特殊的函数其名字为 `main`，它是在托管环境中的 **主入口点**
 
-> **💡 提示：执行环境: 托管环境 vs 独立环境**
+> [!TIP]
 > C 标准（ISO/IEC 9899:2024）定义了两种执行环境：**托管环境** 和 **独立环境**。这种两种环境的比较如下
 >
 > | 特性     | 托管环境       | 独立环境      |
@@ -125,7 +125,7 @@ printf("To C, or not to c; that is the question.\n");
 
 **C 语言规定每条语句都要以分号结尾**。由于语句可以连续占用多行，有时很难确定它的结束位置，因此用分号来向编译器显示语句的结束位置。但指令通常只占一行，因此不需要用分号结尾。
 
-> **⚠️ 注意**
+> [!WARNING]
 > 就像任何好的规则一样，这条规则也有一个例外：后面会遇到的 **复合语句** 就不以分号结尾。包围在花括号 `{...}` 中的至少 $0$ 条语句称为 **复合语句**；复合语句是以 `{...}` 界定的，因此不需要使用分号标记复合语句的结束
 
 ## 注释
@@ -146,12 +146,12 @@ printf("To C, or not to c; that is the question.\n");
 
 每一个变量都必须有一个 **类型**；类型用来说明变量所存储的数据的种类。C 语言提供了非常丰富的类型，但目前只需要了解 `int` 和 `double` 两个类型即可
 
-> **⚠️ 注意**
+> [!WARNING]
 > 请注意：类型决定了变量的存储方式和允许对变量进行的操作，所以为变量选择选择合适的类型是非常关键的
 
 `int` 是一种 **整数类型**，该类型的变量只允许存储整数。`double` 是一种 **浮点数类型**，该类型的变量允许存储带小数位的数。在进行算数运算时，`double` 类型通常比 `int` 类型慢；但是，`double` 类型可以存储的数值范围远远大于 `int` 类型
 
-> **📝 说明**
+> [!NOTE]
 > `int` 类型的变量在现代系统上通常占用 $4$ 字节（$32$ 位），能够存储整数的范围在 $-2147483648 \sim 2147483647$ 之间；`double` 类型的变量能够存储的范围远大于这个范围，具体取决于浮点数表示方式
 
 `double` 类型存储的数值往往只是真实数值的一个近似值。例如，$0.2$ 在我使用的机器的实际值是：
@@ -189,7 +189,7 @@ volume = height * length * width;
 
 这里的 `*` 表示乘法运算符，因此上述语句将 `height` `length` 和 `width` $3$ 个变量中的数值相乘，然后将运算结构赋值给变量 `volume`
 
-> **💡 提示**
+> [!TIP]
 > 赋值运算的右侧可以是一个含有常量、变量和运算符的公式；C 语言称为 **表达式**。在表达式后面加上分号 `;` 就形成了表达式语句
 
 ### 输出变量的值
@@ -203,7 +203,7 @@ printf("Profit: $%f\n", profit);
 
 函数 `printf` 的第一个参数称为 **格式化字符串**；其中以 `%{.}` 称为 **格式说明符**，也称为 **占位符**；表示输出中要插入变量值的位置。`printf` 的剩余参数就是需要插入到格式化字符串中的值；有几个占位符就应该有几个剩余参数
 
-> **💡 提示：格式说明符规则**
+> [!TIP]
 > 格式说明符的通用形式一般为: `%[标志][最小宽度][.精度][长度修饰符]转换说明符`；由方括号包围的部分是可选的。请注意，各个部分的 **顺序不能改变**
 >
 > 类型转换说明: 目标值的类型，根据类型决定如何显示目标值
@@ -255,15 +255,16 @@ int main(int argc, char *argv[]) {
 ```
 
 <details>
-<summary><strong>📌 示例：编译并运行</strong></summary>
+<summary><strong>NOTE: 编译并运行</strong></summary>
 
-```shell
-➜ gcc -Wall -std=c23 -o dweight dweight.c
-➜ ./dweight
-Dimensions: 12 x 10 x 8
-Volume (cubic inches): 960
-Dimensional weight (pounds): 6
-```
+> [!NOTE]
+> ```shell
+> ➜ gcc -Wall -std=c23 -o dweight dweight.c
+> ➜ ./dweight
+> Dimensions: 12 x 10 x 8
+> Volume (cubic inches): 960
+> Dimensional weight (pounds): 6
+> ```
 
 </details>
 
@@ -278,7 +279,7 @@ scanf("%d", &height); // 读入一个 int 类型的值并存储在 `height` 中
 scanf("%lf", &profit); // 读入一个 double 类型的值并存储在 `profit` 中
 ```
 
-> **⚠️ 注意：注意**
+> [!WARNING]
 > 请注意，`&height` 前的 `&` 符号必须存在；它是一个运算符，会在后续内容中介绍。目前，很难解释它
 >
 > 使用 `scanf` 读入 `double` 类型的值时，请使用 `%lf` 作为格式说明符
@@ -319,18 +320,19 @@ int main(int argc, char *argv[]) {
 ```
 
 <details>
-<summary><strong>📌 示例：编译并运行</strong></summary>
+<summary><strong>NOTE: 编译并运行</strong></summary>
 
-```shell
-➜ gcc -Wall -std=c23 -o dweight dweight2.c
-➜ ./dweight
-Enter height of box: 8
-Enter length of box: 12
-Enter width of box: 10
-Dimensions: 12 x 10 x 8
-Volume (cubic inches): 960
-Dimensional weight (pounds): 6
-```
+> [!NOTE]
+> ```shell
+> ➜ gcc -Wall -std=c23 -o dweight dweight2.c
+> ➜ ./dweight
+> Enter height of box: 8
+> Enter length of box: 12
+> Enter width of box: 10
+> Dimensions: 12 x 10 x 8
+> Volume (cubic inches): 960
+> Dimensional weight (pounds): 6
+> ```
 
 </details>
 
@@ -356,7 +358,7 @@ weight = (volume + INCHES_PER_POUND - 1) / INCHES_PER_POUND
 weight = (volume + 166 - 1) / 166
 ```
 
-> **⚠️ 注意：注意**
+> [!WARNING]
 > 宏只会进行简单的文本替换；当替换文本中出现运算符时，应该使用括号括起来
 >
 > ```c
@@ -387,14 +389,15 @@ int main(void) {
 ```
 
 <details>
-<summary><strong>📌 示例：编译并运行</strong></summary>
+<summary><strong>NOTE: 编译并运行</strong></summary>
 
-```shell
-➜ gcc -Wall -std=c23 -o celsius celsius.c
-➜ ./celsius
-Enter Fahrenheit temperature: 212
-Celsius equivalent: 100.00
-```
+> [!NOTE]
+> ```shell
+> ➜ gcc -Wall -std=c23 -o celsius celsius.c
+> ➜ ./celsius
+> Enter Fahrenheit temperature: 212
+> Celsius equivalent: 100.00
+> ```
 
 </details>
 
@@ -402,7 +405,7 @@ Celsius equivalent: 100.00
 
 **标识符** 是用来命名变量、函数、类型、宏等的符号。C 语言对标识符有以下硬性规定：
 
-> **💡 提示：规则**
+> [!TIP]
 > 标识符只能由以下字符组成
 >
 > + 字母: `a-z` 和 `A-Z`
@@ -445,7 +448,7 @@ Celsius equivalent: 100.00
 >
 > 保留字: 以 `_` 或 `__` 开头的标识符留给编译器和标准库实现，用户代码中避免使用。
 
-> **💡 提示：长度限制**
+> [!TIP]
 > + C89：前 31 个字符有效（外部链接标识符前 6 个字符有效）
 > + C99 起：前 63 个字符有效（外部链接标识符前 31 个字符有效）
 > + C11 起：进一步放宽到 63 / 31
@@ -456,7 +459,7 @@ Celsius equivalent: 100.00
 
 下面将进入 C 语言的学习，在正式开始之前，我们需要介绍以下 C 程序的书写规范。C 程序可以看作是一系列 **记号(token)**
 
-> **💡 提示：记号: 在不改变意思的情况上无法再分割的最小字符组**
+> [!TIP]
 > C 程序中的记号有以下几类
 >
 > + 标识符
@@ -484,7 +487,7 @@ printf   (   "Height: %d\n"   ,    height   )   ;
 | `(` `,` `)` `;`   | 标点符号 |
 | `"Height: %d\n"`  | 字面值   |
 
-> **⚠️ 注意：注意**
+> [!WARNING]
 > 记号之间的空格是没有要求的。大多数情况下不需要在记号之间保留空格，除非两个记号合并后会产生第三个记号
 
 例如，下面的 C 程序完全正确，但是这样的程序没有任何可读性，非常不利于程序的后期维护。

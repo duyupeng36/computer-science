@@ -45,7 +45,7 @@ if (i > 25) {
 
 当 `i > 25` 的值是 `true` 时，则执行 `j = i - 25`；否则执行 `j = i`。
 
-> **💡 提示：控制表达式**
+> [!TIP]
 > `if` 语句的 `condition` 部分控制 `if` 语句从 `secondary-block0` 和 `secondary-block1` 两个程序块中选择一个执行。因此，`condition` 表达式也称为 **控制表达式**；`secondary-block0` 和 `secondary-block1`  称为 **依赖块**
 
 在 `if (....) ... else ...` 结构中，`else` 子句是可选的。最简单的 `if` 语句形式如下
@@ -54,7 +54,7 @@ if (i > 25) {
 if (condition) secondary-block
 ```
 
-> **💡 提示：控制表达式**
+> [!TIP]
 > 在 C 语言中，`if` 语句可选的控制表达式非常多。它们可以从简单的比较到非常复杂的嵌套表达式，我们将在 [表达式] 中介绍所有可用的控制表达式
 >
 > 现在，我们只需要了解两条非常简单且重要的规则
@@ -106,7 +106,7 @@ if (i) {
 从 C23 标准提供了 `bool` 类型，并且 `true` 和 `false` 都关键字，用于表示 `bool` 类型的字面值。从技术上讲，`true` 是 $1$ 的别名，`false` 是 $0$ 的别名。然而，使用 `true` 和 `false` 而不是数字，可以强调某个值被解释为一个条件。显然，`bool` 类型的值就是用在 `if` 的控制表达式之上的
 
 
-> **⚠️ 注意**
+> [!WARNING]
 > 注意: 一般情况下，零值、`true` 和 `false` 都可以直接表示条件；不应该在和它们进行任何比较
 >
 > 冗余比较很快就变得不可读，并使代码变得混乱。如果你有一个依赖于真值的条件，那么就直接使用这个真值作为条件。例如
@@ -164,7 +164,7 @@ else
 
 请注意，我们将每个 `else` 与它匹配的 `if` 对其排列，以提高可读性。但是依旧**不建议像这样省略花括号**。
 
-> **⚠️ 注意：悬空的 else 子句**
+> [!WARNING]
 > 缺少花括号的情况下，一定要小心悬空的 `else` 子句问题。例如
 >
 > ```c
@@ -277,14 +277,15 @@ int main(void) {
 ```
 
 <details>
-<summary><strong>📌 示例：编译并运行</strong></summary>
+<summary><strong>NOTE: 编译并运行</strong></summary>
 
-```shell
-➜ gcc -Wall -std=c23 -o broker broker.c
-➜ ./broker
-Enter value of trade: 34657
-Commission: 176.25
-```
+> [!NOTE]
+> ```shell
+> ➜ gcc -Wall -std=c23 -o broker broker.c
+> ➜ ./broker
+> Enter value of trade: 34657
+> Commission: 176.25
+> ```
 
 </details>
 
@@ -317,7 +318,7 @@ flowchart LR
 
 
 
-> **💡 提示：注意点**
+> [!TIP]
 > + 通常，我们希望在 `for` 循环的上下文中严格定义循环变量，所以大多数情形下，`clause1` 应该是一个变量定义语句
 > + `for` 循环由 $4$ 个部分组成，相对比较复杂；因此，`secondary-block` 应该是由 `{...}` 包围的程序块
 
@@ -344,7 +345,7 @@ for (size_t i = 9; i <= 9; --i) {
 }
 ```
 
-> **💡 提示：无符号整数**
+> [!TIP]
 > `size_t` 类型是 C 语言中的一种语义类型，它表示了数量和大小的概念，这种类型永远不会为负数
 
 在 C 语言中，还有两个循环语句 `while` 和 `do-while`:
@@ -383,58 +384,60 @@ flowchart LR
 ```
 
 <details>
-<summary><strong>💡 提示：牛顿迭代法</strong></summary>
+<summary><strong>TIP: 牛顿迭代法</strong></summary>
 
-牛顿迭代法是由牛顿在 17 世纪提出的求解方程的数值方法；即 对于在 $[a, b]$ 上连续且单调的函数 $f(x)$，求方程 $f(x)=0$ 的近似解
-
-任意选取一个函数 $f(x)$ 上的一点 $(x_{n}, f(x_{n}))$，在这个点上进行一阶泰勒展开
-
-$$
-f(x) \approx f(x_{n}) + f^{\prime}(x_{n})(x - x_{n})
-$$
-
-令 $f(x) = 0$，代入近似公式，求解 $x$
-
-$$
-\begin{aligned}
-0 &= f(x_{n}) + f^{\prime}(x_{n})(x - x_{n})\\
-x - x_{n} &= - \frac{f(x_n)}{f^{\prime}(x_n)} \\
-x &= x_{n} - \frac{f(x_n)}{f^{\prime}(x_n)}
-\end{aligned}
-$$
-
-将此时解出的 $x$ 记为下一次迭代的近似值 $x_{n+1}$。从几何上来讲，$x_{n+1}$ 就是过 $(x_{n}, f(x_{n}))$ 点的切线与 $x$ 轴的交点
+> [!TIP]
+> 牛顿迭代法是由牛顿在 17 世纪提出的求解方程的数值方法；即 对于在 $[a, b]$ 上连续且单调的函数 $f(x)$，求方程 $f(x)=0$ 的近似解
+>
+> 任意选取一个函数 $f(x)$ 上的一点 $(x_{n}, f(x_{n}))$，在这个点上进行一阶泰勒展开
+>
+> $$
+> f(x) \approx f(x_{n}) + f^{\prime}(x_{n})(x - x_{n})
+> $$
+>
+> 令 $f(x) = 0$，代入近似公式，求解 $x$
+>
+> $$
+> \begin{aligned}
+> 0 &= f(x_{n}) + f^{\prime}(x_{n})(x - x_{n})\\
+> x - x_{n} &= - \frac{f(x_n)}{f^{\prime}(x_n)} \\
+> x &= x_{n} - \frac{f(x_n)}{f^{\prime}(x_n)}
+> \end{aligned}
+> $$
+>
+> 将此时解出的 $x$ 记为下一次迭代的近似值 $x_{n+1}$。从几何上来讲，$x_{n+1}$ 就是过 $(x_{n}, f(x_{n}))$ 点的切线与 $x$ 轴的交点
 
 </details>
 
 下面的示例展示了 `while` 语句的典型用法。它实现了所谓的牛顿迭代法来计算一个数 $a$ 的倒数 $\frac{1}{a}$
 
 <details>
-<summary><strong>📌 示例：牛顿迭代法计算数 $x$ 的倒数 $\frac{1}{x}$</strong></summary>
+<summary><strong>NOTE: 牛顿迭代法计算数 $x$ 的倒数 $\frac{1}{x}$</strong></summary>
 
-想要计算 $y = \frac{1}{x}$ 的值，就可以转化为求解方程
-
-$$
-f(y) = \frac{1}{y} - x = 0
-$$
-
-其导数为
-
-$$
-f^{\prime}(y) = -\frac{1}{y^2}
-$$
-
-代入牛顿迭代公式得到
-
-$$
-\begin{aligned}
-y_{n+1} &= y_{n} - \frac{f(y_n)}{f^{\prime}(y_n)} \\
-        &= y_{n} - \frac{\frac{1}{y_{n}} - x}{-\frac{1}{y_{n}^2}} \\
-        &= y_{n} + y_{n}^{2} \cdot (\frac{1}{y_{n}} - x) \\
-        &= y_{n} + y_{n} - x \cdot y_{n}^2 \\
-        &= y_{n} \cdot (2 - x\cdot y_{n})
-\end{aligned}
-$$
+> [!NOTE]
+> 想要计算 $y = \frac{1}{x}$ 的值，就可以转化为求解方程
+>
+> $$
+> f(y) = \frac{1}{y} - x = 0
+> $$
+>
+> 其导数为
+>
+> $$
+> f^{\prime}(y) = -\frac{1}{y^2}
+> $$
+>
+> 代入牛顿迭代公式得到
+>
+> $$
+> \begin{aligned}
+> y_{n+1} &= y_{n} - \frac{f(y_n)}{f^{\prime}(y_n)} \\
+>         &= y_{n} - \frac{\frac{1}{y_{n}} - x}{-\frac{1}{y_{n}^2}} \\
+>         &= y_{n} + y_{n}^{2} \cdot (\frac{1}{y_{n}} - x) \\
+>         &= y_{n} + y_{n} - x \cdot y_{n}^2 \\
+>         &= y_{n} \cdot (2 - x\cdot y_{n})
+> \end{aligned}
+> $$
 
 </details>
 
@@ -509,25 +512,26 @@ int main(void) {
 ```
 
 <details>
-<summary><strong>📌 示例：编译并运行</strong></summary>
+<summary><strong>NOTE: 编译并运行</strong></summary>
 
-```shell
-➜ gcc -Wall -std=c23 -o square square.c
-➜ ./square
-Enter number of entries in table: 12
-        1         1
-        2         4
-        3         9
-        4        16
-        5        25
-        6        36
-        7        49
-        8        64
-        9        81
-        10       100
-        11       121
-        12       144
-```
+> [!NOTE]
+> ```shell
+> ➜ gcc -Wall -std=c23 -o square square.c
+> ➜ ./square
+> Enter number of entries in table: 12
+>         1         1
+>         2         4
+>         3         9
+>         4        16
+>         5        25
+>         6        36
+>         7        49
+>         8        64
+>         9        81
+>         10       100
+>         11       121
+>         12       144
+> ```
 
 </details>
 
@@ -560,20 +564,21 @@ int main(void) {
 ```
 
 <details>
-<summary><strong>📌 示例：编译并输出</strong></summary>
+<summary><strong>NOTE: 编译并输出</strong></summary>
 
-```shell
-➜ gcc -Wall -std=c23 -o numdigit numdigit.c
-➜ ./numdigit
-Enter an integer number: 0
-The number has 1 digit(s).
-➜ ./numdigit
-Enter an integer number: 789
-The number has 3 digit(s).
-➜ ./numdigit
-Enter an integer number: -90
-The number has 2 digit(s).
-```
+> [!NOTE]
+> ```shell
+> ➜ gcc -Wall -std=c23 -o numdigit numdigit.c
+> ➜ ./numdigit
+> Enter an integer number: 0
+> The number has 1 digit(s).
+> ➜ ./numdigit
+> Enter an integer number: 789
+> The number has 3 digit(s).
+> ➜ ./numdigit
+> Enter an integer number: -90
+> The number has 2 digit(s).
+> ```
 
 </details>
 
@@ -581,7 +586,7 @@ The number has 2 digit(s).
 
 该示例程序是程序 `square.c` 的改进版本；程序 `square.c` 在计算平方表时直接使用的乘法运算符。计算机在计算乘法时需要消耗的时间通常要比计算加法消耗的时间更长
 
-> **💡 提示：平方表改进数学原理**
+> [!TIP]
 > 为了计算 $n^2$，我们首先观察一下 $(n-1)^2$
 >
 > $$
@@ -668,19 +673,20 @@ int main(int argc, char* argv[argc + 1]) {
 ```
 
 <details>
-<summary><strong>📌 示例：编译并运行</strong></summary>
+<summary><strong>NOTE: 编译并运行</strong></summary>
 
-```shell
-➜ gcc -Wall -std=c23 -o power power.c
-➜ ./power 2 10
-Result is: 1e+03
-➜ ./power 2 -2
-Result is: 0.25
-➜ ./power -2 2
-Result is: 4
-➜ ./power -2 -2
-Result is: 0.25
-```
+> [!NOTE]
+> ```shell
+> ➜ gcc -Wall -std=c23 -o power power.c
+> ➜ ./power 2 10
+> Result is: 1e+03
+> ➜ ./power 2 -2
+> Result is: 0.25
+> ➜ ./power -2 2
+> Result is: 4
+> ➜ ./power -2 -2
+> Result is: 0.25
+> ```
 
 </details>
 
@@ -749,7 +755,7 @@ switch(expression) {
 
 其中 `ICE` 称为 **整数常量表达式**；也就是说，`expression` 必须是整数类型的表达式。`statements` 是每个标签需要执行的语句序列，这里是 C 程序中少数几个不需要花括号的地方；每组语句的最后一条通常是 `break` 语句
 
-> **⚠️ 注意：警告: case 标签不能绕过变量定义进入它的作用域**
+> [!WARNING]
 > 下面的例子就说明这个问题
 >
 > ```c
