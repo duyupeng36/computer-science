@@ -45,9 +45,8 @@ if (i > 25) {
 
 当 `i > 25` 的值是 `true` 时，则执行 `j = i - 25`；否则执行 `j = i`。
 
-!!! tip "控制表达式"
-
-    `if` 语句的 `condition` 部分控制 `if` 语句从 `secondary-block0` 和 `secondary-block1` 两个程序块中选择一个执行。因此，`condition` 表达式也称为 **控制表达式**；`secondary-block0` 和 `secondary-block1`  称为 **依赖块**
+> **💡 提示：控制表达式**
+> `if` 语句的 `condition` 部分控制 `if` 语句从 `secondary-block0` 和 `secondary-block1` 两个程序块中选择一个执行。因此，`condition` 表达式也称为 **控制表达式**；`secondary-block0` 和 `secondary-block1`  称为 **依赖块**
 
 在 `if (....) ... else ...` 结构中，`else` 子句是可选的。最简单的 `if` 语句形式如下
 
@@ -55,14 +54,13 @@ if (i > 25) {
 if (condition) secondary-block
 ```
 
-!!! tip "控制表达式"
-
-    在 C 语言中，`if` 语句可选的控制表达式非常多。它们可以从简单的比较到非常复杂的嵌套表达式，我们将在 [表达式] 中介绍所有可用的控制表达式
-
-    现在，我们只需要了解两条非常简单且重要的规则
-
-    + **零值表示的逻辑值为假**: 任意基本类型的零值被视为 `false`
-    + **非零值表示的逻辑值为真**: 任意基本类型的非零值被视为 `true`
+> **💡 提示：控制表达式**
+> 在 C 语言中，`if` 语句可选的控制表达式非常多。它们可以从简单的比较到非常复杂的嵌套表达式，我们将在 [表达式] 中介绍所有可用的控制表达式
+>
+> 现在，我们只需要了解两条非常简单且重要的规则
+>
+> + **零值表示的逻辑值为假**: 任意基本类型的零值被视为 `false`
+> + **非零值表示的逻辑值为真**: 任意基本类型的非零值被视为 `true`
 
 下表列出了不同基本类型的零值
 
@@ -108,27 +106,26 @@ if (i) {
 从 C23 标准提供了 `bool` 类型，并且 `true` 和 `false` 都关键字，用于表示 `bool` 类型的字面值。从技术上讲，`true` 是 $1$ 的别名，`false` 是 $0$ 的别名。然而，使用 `true` 和 `false` 而不是数字，可以强调某个值被解释为一个条件。显然，`bool` 类型的值就是用在 `if` 的控制表达式之上的
 
 
-!!! warning
-
-    注意: 一般情况下，零值、`true` 和 `false` 都可以直接表示条件；不应该在和它们进行任何比较
-
-    冗余比较很快就变得不可读，并使代码变得混乱。如果你有一个依赖于真值的条件，那么就直接使用这个真值作为条件。例如
-
-    ```c
-    bool b = ...;
-    if ((b != false) == true) {
-        ....
-    }
-    ```
-
-    可以写成
-
-    ```c
-    bool b = ...;
-    if (b) {
-        ...
-    }
-    ```
+> **⚠️ 注意**
+> 注意: 一般情况下，零值、`true` 和 `false` 都可以直接表示条件；不应该在和它们进行任何比较
+>
+> 冗余比较很快就变得不可读，并使代码变得混乱。如果你有一个依赖于真值的条件，那么就直接使用这个真值作为条件。例如
+>
+> ```c
+> bool b = ...;
+> if ((b != false) == true) {
+>     ....
+> }
+> ```
+>
+> 可以写成
+>
+> ```c
+> bool b = ...;
+> if (b) {
+>     ...
+> }
+> ```
 
 ### 嵌套的 if 语句 {#nested-if}
 
@@ -167,38 +164,37 @@ else
 
 请注意，我们将每个 `else` 与它匹配的 `if` 对其排列，以提高可读性。但是依旧**不建议像这样省略花括号**。
 
-!!! warning "悬空的 else 子句"
-
-    缺少花括号的情况下，一定要小心悬空的 `else` 子句问题。例如
-
-    ```c
-    if (y != 0)
-        if (x != 0)
-            result = x / y;
-    else
-        printf("Error: y is equal to 0\n");
-    ```
-
-    这里的 `else` 的缩进暗示它属于外层的 `if` 语句。然而，C 语言遵循的规则是 `else` 子句应该属于离它最近且还没有和其他 `else` 匹配的 `if` 语句。因此，这个示例代码片段的 `else` 子句应该属于内层的 `if` 语句。正确的缩进格式应该是
-
-    ```c
-    if (y != 0)
-        if (x != 0)
-            result = x / y;
-        else
-            printf("Error: y is equal to 0\n");
-    ```
-
-    如果 `if` 语句的每个依赖块都使用花括号包围起来，就不会出现这样的悬空 `else` 问题
-
-    ```c
-    if (y != 0) {
-        if (x != 0)
-            result = x / y;
-    } else {
-        printf("Error: y is equal to 0\n");
-    }
-    ```
+> **⚠️ 注意：悬空的 else 子句**
+> 缺少花括号的情况下，一定要小心悬空的 `else` 子句问题。例如
+>
+> ```c
+> if (y != 0)
+>     if (x != 0)
+>         result = x / y;
+> else
+>     printf("Error: y is equal to 0\n");
+> ```
+>
+> 这里的 `else` 的缩进暗示它属于外层的 `if` 语句。然而，C 语言遵循的规则是 `else` 子句应该属于离它最近且还没有和其他 `else` 匹配的 `if` 语句。因此，这个示例代码片段的 `else` 子句应该属于内层的 `if` 语句。正确的缩进格式应该是
+>
+> ```c
+> if (y != 0)
+>     if (x != 0)
+>         result = x / y;
+>     else
+>         printf("Error: y is equal to 0\n");
+> ```
+>
+> 如果 `if` 语句的每个依赖块都使用花括号包围起来，就不会出现这样的悬空 `else` 问题
+>
+> ```c
+> if (y != 0) {
+>     if (x != 0)
+>         result = x / y;
+> } else {
+>     printf("Error: y is equal to 0\n");
+> }
+> ```
 
 ### 级联的 if 语句 {#cascaded-if}
 
@@ -280,14 +276,17 @@ int main(void) {
 }
 ```
 
-??? example "编译并运行"
+<details>
+<summary><strong>📌 示例：编译并运行</strong></summary>
 
-    ```shell
-    ➜ gcc -Wall -std=c23 -o broker broker.c
-    ➜ ./broker
-    Enter value of trade: 34657
-    Commission: 176.25
-    ```
+```shell
+➜ gcc -Wall -std=c23 -o broker broker.c
+➜ ./broker
+Enter value of trade: 34657
+Commission: 176.25
+```
+
+</details>
 
 ## 循环 {#loop}
 
@@ -318,10 +317,9 @@ flowchart LR
 
 
 
-!!! tip "注意点"
-
-    + 通常，我们希望在 `for` 循环的上下文中严格定义循环变量，所以大多数情形下，`clause1` 应该是一个变量定义语句
-    + `for` 循环由 $4$ 个部分组成，相对比较复杂；因此，`secondary-block` 应该是由 `{...}` 包围的程序块
+> **💡 提示：注意点**
+> + 通常，我们希望在 `for` 循环的上下文中严格定义循环变量，所以大多数情形下，`clause1` 应该是一个变量定义语句
+> + `for` 循环由 $4$ 个部分组成，相对比较复杂；因此，`secondary-block` 应该是由 `{...}` 包围的程序块
 
 下面的 $3$ 条语句是 `for` 语句的惯例用法
 
@@ -346,9 +344,8 @@ for (size_t i = 9; i <= 9; --i) {
 }
 ```
 
-!!! tip "无符号整数"
-
-    `size_t` 类型是 C 语言中的一种语义类型，它表示了数量和大小的概念，这种类型永远不会为负数
+> **💡 提示：无符号整数**
+> `size_t` 类型是 C 语言中的一种语义类型，它表示了数量和大小的概念，这种类型永远不会为负数
 
 在 C 语言中，还有两个循环语句 `while` 和 `do-while`:
 
@@ -385,55 +382,61 @@ flowchart LR
     style D fill:#E0E0E0,color:#616161
 ```
 
-??? tip "牛顿迭代法"
+<details>
+<summary><strong>💡 提示：牛顿迭代法</strong></summary>
 
-    牛顿迭代法是由牛顿在 17 世纪提出的求解方程的数值方法；即 对于在 $[a, b]$ 上连续且单调的函数 $f(x)$，求方程 $f(x)=0$ 的近似解
+牛顿迭代法是由牛顿在 17 世纪提出的求解方程的数值方法；即 对于在 $[a, b]$ 上连续且单调的函数 $f(x)$，求方程 $f(x)=0$ 的近似解
 
-    任意选取一个函数 $f(x)$ 上的一点 $(x_{n}, f(x_{n}))$，在这个点上进行一阶泰勒展开
+任意选取一个函数 $f(x)$ 上的一点 $(x_{n}, f(x_{n}))$，在这个点上进行一阶泰勒展开
 
-    $$
-    f(x) \approx f(x_{n}) + f^{\prime}(x_{n})(x - x_{n})
-    $$
+$$
+f(x) \approx f(x_{n}) + f^{\prime}(x_{n})(x - x_{n})
+$$
 
-    令 $f(x) = 0$，代入近似公式，求解 $x$
+令 $f(x) = 0$，代入近似公式，求解 $x$
 
-    $$
-    \begin{aligned}
-    0 &= f(x_{n}) + f^{\prime}(x_{n})(x - x_{n})\\
-    x - x_{n} &= - \frac{f(x_n)}{f^{\prime}(x_n)} \\
-    x &= x_{n} - \frac{f(x_n)}{f^{\prime}(x_n)}
-    \end{aligned}
-    $$
+$$
+\begin{aligned}
+0 &= f(x_{n}) + f^{\prime}(x_{n})(x - x_{n})\\
+x - x_{n} &= - \frac{f(x_n)}{f^{\prime}(x_n)} \\
+x &= x_{n} - \frac{f(x_n)}{f^{\prime}(x_n)}
+\end{aligned}
+$$
 
-    将此时解出的 $x$ 记为下一次迭代的近似值 $x_{n+1}$。从几何上来讲，$x_{n+1}$ 就是过 $(x_{n}, f(x_{n}))$ 点的切线与 $x$ 轴的交点
+将此时解出的 $x$ 记为下一次迭代的近似值 $x_{n+1}$。从几何上来讲，$x_{n+1}$ 就是过 $(x_{n}, f(x_{n}))$ 点的切线与 $x$ 轴的交点
+
+</details>
 
 下面的示例展示了 `while` 语句的典型用法。它实现了所谓的牛顿迭代法来计算一个数 $a$ 的倒数 $\frac{1}{a}$
 
-??? example "牛顿迭代法计算数 $x$ 的倒数 $\frac{1}{x}$"
+<details>
+<summary><strong>📌 示例：牛顿迭代法计算数 $x$ 的倒数 $\frac{1}{x}$</strong></summary>
 
-    想要计算 $y = \frac{1}{x}$ 的值，就可以转化为求解方程
+想要计算 $y = \frac{1}{x}$ 的值，就可以转化为求解方程
 
-    $$
-    f(y) = \frac{1}{y} - x = 0
-    $$
+$$
+f(y) = \frac{1}{y} - x = 0
+$$
 
-    其导数为
+其导数为
 
-    $$
-    f^{\prime}(y) = -\frac{1}{y^2}
-    $$
+$$
+f^{\prime}(y) = -\frac{1}{y^2}
+$$
 
-    代入牛顿迭代公式得到
+代入牛顿迭代公式得到
 
-    $$
-    \begin{aligned}
-    y_{n+1} &= y_{n} - \frac{f(y_n)}{f^{\prime}(y_n)} \\
-            &= y_{n} - \frac{\frac{1}{y_{n}} - x}{-\frac{1}{y_{n}^2}} \\
-            &= y_{n} + y_{n}^{2} \cdot (\frac{1}{y_{n}} - x) \\
-            &= y_{n} + y_{n} - x \cdot y_{n}^2 \\
-            &= y_{n} \cdot (2 - x\cdot y_{n})
-    \end{aligned}
-    $$
+$$
+\begin{aligned}
+y_{n+1} &= y_{n} - \frac{f(y_n)}{f^{\prime}(y_n)} \\
+        &= y_{n} - \frac{\frac{1}{y_{n}} - x}{-\frac{1}{y_{n}^2}} \\
+        &= y_{n} + y_{n}^{2} \cdot (\frac{1}{y_{n}} - x) \\
+        &= y_{n} + y_{n} - x \cdot y_{n}^2 \\
+        &= y_{n} \cdot (2 - x\cdot y_{n})
+\end{aligned}
+$$
+
+</details>
 
 ```c
 double const eps = 1E-9;  // 精度
@@ -505,25 +508,28 @@ int main(void) {
 }
 ```
 
-??? example "编译并运行"
+<details>
+<summary><strong>📌 示例：编译并运行</strong></summary>
 
-    ```shell
-    ➜ gcc -Wall -std=c23 -o square square.c
-    ➜ ./square
-    Enter number of entries in table: 12
-            1         1
-            2         4
-            3         9
-            4        16
-            5        25
-            6        36
-            7        49
-            8        64
-            9        81
-            10       100
-            11       121
-            12       144
-    ```
+```shell
+➜ gcc -Wall -std=c23 -o square square.c
+➜ ./square
+Enter number of entries in table: 12
+        1         1
+        2         4
+        3         9
+        4        16
+        5        25
+        6        36
+        7        49
+        8        64
+        9        81
+        10       100
+        11       121
+        12       144
+```
+
+</details>
 
 ### 示例程序: 计算整数的位数  {#example-3}
 
@@ -553,38 +559,40 @@ int main(void) {
 }
 ```
 
-??? example "编译并输出"
+<details>
+<summary><strong>📌 示例：编译并输出</strong></summary>
 
-    ```shell
-    ➜ gcc -Wall -std=c23 -o numdigit numdigit.c
-    ➜ ./numdigit
-    Enter an integer number: 0
-    The number has 1 digit(s).
-    ➜ ./numdigit
-    Enter an integer number: 789
-    The number has 3 digit(s).
-    ➜ ./numdigit
-    Enter an integer number: -90
-    The number has 2 digit(s).
-    ```
+```shell
+➜ gcc -Wall -std=c23 -o numdigit numdigit.c
+➜ ./numdigit
+Enter an integer number: 0
+The number has 1 digit(s).
+➜ ./numdigit
+Enter an integer number: 789
+The number has 3 digit(s).
+➜ ./numdigit
+Enter an integer number: -90
+The number has 2 digit(s).
+```
+
+</details>
 
 ### 示例程序: 改进的平方表  {#example-4}
 
 该示例程序是程序 `square.c` 的改进版本；程序 `square.c` 在计算平方表时直接使用的乘法运算符。计算机在计算乘法时需要消耗的时间通常要比计算加法消耗的时间更长
 
-!!! tip "平方表改进数学原理"
-
-    为了计算 $n^2$，我们首先观察一下 $(n-1)^2$
-
-    $$
-    (n-1)^2 = n^2 - 2n + 1
-    $$
-
-    调整一下，我们就得到了
-
-    $$
-    n^2 = (n-1)^2 + (2n - 1)
-    $$
+> **💡 提示：平方表改进数学原理**
+> 为了计算 $n^2$，我们首先观察一下 $(n-1)^2$
+>
+> $$
+> (n-1)^2 = n^2 - 2n + 1
+> $$
+>
+> 调整一下，我们就得到了
+>
+> $$
+> n^2 = (n-1)^2 + (2n - 1)
+> $$
 
 ```c title="square2.c" linenums="1"
 /* square2.c - 改进的平方表计算方法 */
@@ -659,19 +667,22 @@ int main(int argc, char* argv[argc + 1]) {
 }
 ```
 
-??? example "编译并运行"
+<details>
+<summary><strong>📌 示例：编译并运行</strong></summary>
 
-    ```shell
-    ➜ gcc -Wall -std=c23 -o power power.c
-    ➜ ./power 2 10
-    Result is: 1e+03
-    ➜ ./power 2 -2
-    Result is: 0.25
-    ➜ ./power -2 2
-    Result is: 4
-    ➜ ./power -2 -2
-    Result is: 0.25
-    ```
+```shell
+➜ gcc -Wall -std=c23 -o power power.c
+➜ ./power 2 10
+Result is: 1e+03
+➜ ./power 2 -2
+Result is: 0.25
+➜ ./power -2 2
+Result is: 4
+➜ ./power -2 -2
+Result is: 0.25
+```
+
+</details>
 
 ## 多重选择 {#multiple-selection}
 
@@ -738,28 +749,27 @@ switch(expression) {
 
 其中 `ICE` 称为 **整数常量表达式**；也就是说，`expression` 必须是整数类型的表达式。`statements` 是每个标签需要执行的语句序列，这里是 C 程序中少数几个不需要花括号的地方；每组语句的最后一条通常是 `break` 语句
 
-!!! warning "警告: case 标签不能绕过变量定义进入它的作用域"
-
-    下面的例子就说明这个问题
-
-    ```c
-    int test = {3};
-    switch (test) {
-
-        int i = {1};  // 非法的 case 标签绕过了它的定义进入了它的作用域
-
-        case 1:
-            int j = {2}; // 非法的
-            break
-        case 3: {
-
-            int m = {4}; // OK
-        }
-
-        default:
-            int n = {5}; // OK: 如果 default 后面还有其他标签，这也是非法的
-    }
-    ```
+> **⚠️ 注意：警告: case 标签不能绕过变量定义进入它的作用域**
+> 下面的例子就说明这个问题
+>
+> ```c
+> int test = {3};
+> switch (test) {
+>
+>     int i = {1};  // 非法的 case 标签绕过了它的定义进入了它的作用域
+>
+>     case 1:
+>         int j = {2}; // 非法的
+>         break
+>     case 3: {
+>
+>         int m = {4}; // OK
+>     }
+>
+>     default:
+>         int n = {5}; // OK: 如果 default 后面还有其他标签，这也是非法的
+> }
+> ```
 
 [表达式]: expressions.md
 [基本值和数据]: basic-types.md
