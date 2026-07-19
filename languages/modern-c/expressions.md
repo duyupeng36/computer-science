@@ -132,13 +132,12 @@ int main(void) {
 <details>
 <summary><strong>NOTE: 编译并运行</strong></summary>
 
-> [!NOTE]
-> ```shell
-> ➜ gcc -Wall -std=c23 -o upc upc.c
-> ➜ ./upc
-> 请输入 11 位数字: 0 1 3 8 0 0 1 5 1 7 3
-> 校验位: 5
-> ```
+```shell
+➜ gcc -Wall -std=c23 -o upc upc.c
+➜ ./upc
+请输入 11 位数字: 0 1 3 8 0 0 1 5 1 7 3
+校验位: 5
+```
 
 </details>
 
@@ -273,15 +272,14 @@ int main(void) {
 <details>
 <summary><strong>NOTE: 编译并运行</strong></summary>
 
-> [!NOTE]
-> ```shell
-> ➜ gcc -Wall -std=c23 -o loans loans.c
-> ➜ ./loans
-> Enetr your age in years: 28
-> Enetr your annual income in dollars: 50000
-> Enetr your current account balance in dollars: 150000
-> You can borrow up to $: 75000
-> ```
+```shell
+➜ gcc -Wall -std=c23 -o loans loans.c
+➜ ./loans
+Enetr your age in years: 28
+Enetr your annual income in dollars: 50000
+Enetr your current account balance in dollars: 150000
+You can borrow up to $: 75000
+```
 
 </details>
 

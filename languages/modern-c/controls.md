@@ -279,13 +279,12 @@ int main(void) {
 <details>
 <summary><strong>NOTE: 编译并运行</strong></summary>
 
-> [!NOTE]
-> ```shell
-> ➜ gcc -Wall -std=c23 -o broker broker.c
-> ➜ ./broker
-> Enter value of trade: 34657
-> Commission: 176.25
-> ```
+```shell
+➜ gcc -Wall -std=c23 -o broker broker.c
+➜ ./broker
+Enter value of trade: 34657
+Commission: 176.25
+```
 
 </details>
 
@@ -386,7 +385,6 @@ flowchart LR
 <details>
 <summary><strong>TIP: 牛顿迭代法</strong></summary>
 
-> [!TIP]
 > 牛顿迭代法是由牛顿在 17 世纪提出的求解方程的数值方法；即 对于在 $[a, b]$ 上连续且单调的函数 $f(x)$，求方程 $f(x)=0$ 的近似解
 >
 > 任意选取一个函数 $f(x)$ 上的一点 $(x_{n}, f(x_{n}))$，在这个点上进行一阶泰勒展开
@@ -414,7 +412,6 @@ flowchart LR
 <details>
 <summary><strong>NOTE: 牛顿迭代法计算数 $x$ 的倒数 $\frac{1}{x}$</strong></summary>
 
-> [!NOTE]
 > 想要计算 $y = \frac{1}{x}$ 的值，就可以转化为求解方程
 >
 > $$
@@ -514,24 +511,23 @@ int main(void) {
 <details>
 <summary><strong>NOTE: 编译并运行</strong></summary>
 
-> [!NOTE]
-> ```shell
-> ➜ gcc -Wall -std=c23 -o square square.c
-> ➜ ./square
-> Enter number of entries in table: 12
->         1         1
->         2         4
->         3         9
->         4        16
->         5        25
->         6        36
->         7        49
->         8        64
->         9        81
->         10       100
->         11       121
->         12       144
-> ```
+```shell
+➜ gcc -Wall -std=c23 -o square square.c
+➜ ./square
+Enter number of entries in table: 12
+        1         1
+        2         4
+        3         9
+        4        16
+        5        25
+        6        36
+        7        49
+        8        64
+        9        81
+        10       100
+        11       121
+        12       144
+```
 
 </details>
 
@@ -566,19 +562,18 @@ int main(void) {
 <details>
 <summary><strong>NOTE: 编译并输出</strong></summary>
 
-> [!NOTE]
-> ```shell
-> ➜ gcc -Wall -std=c23 -o numdigit numdigit.c
-> ➜ ./numdigit
-> Enter an integer number: 0
-> The number has 1 digit(s).
-> ➜ ./numdigit
-> Enter an integer number: 789
-> The number has 3 digit(s).
-> ➜ ./numdigit
-> Enter an integer number: -90
-> The number has 2 digit(s).
-> ```
+```shell
+➜ gcc -Wall -std=c23 -o numdigit numdigit.c
+➜ ./numdigit
+Enter an integer number: 0
+The number has 1 digit(s).
+➜ ./numdigit
+Enter an integer number: 789
+The number has 3 digit(s).
+➜ ./numdigit
+Enter an integer number: -90
+The number has 2 digit(s).
+```
 
 </details>
 
@@ -675,18 +670,17 @@ int main(int argc, char* argv[argc + 1]) {
 <details>
 <summary><strong>NOTE: 编译并运行</strong></summary>
 
-> [!NOTE]
-> ```shell
-> ➜ gcc -Wall -std=c23 -o power power.c
-> ➜ ./power 2 10
-> Result is: 1e+03
-> ➜ ./power 2 -2
-> Result is: 0.25
-> ➜ ./power -2 2
-> Result is: 4
-> ➜ ./power -2 -2
-> Result is: 0.25
-> ```
+```shell
+➜ gcc -Wall -std=c23 -o power power.c
+➜ ./power 2 10
+Result is: 1e+03
+➜ ./power 2 -2
+Result is: 0.25
+➜ ./power -2 2
+Result is: 4
+➜ ./power -2 -2
+Result is: 0.25
+```
 
 </details>
 
