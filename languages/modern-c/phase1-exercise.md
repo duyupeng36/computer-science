@@ -166,6 +166,22 @@ int main(void) {
 }
 ```
 
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -std=c23 -o convert convert.c
+➜ ./convert
+请输入温度值和单位（如 36.5 C）：36.5 C
+转换结果：97.70 F
+➜ ./convert
+请输入温度值和单位（如 36.5 C）：98.6 F
+转换结果：37.00 C
+```
+
+</details>
+
+
 ---
 
 ### 练习 2：打印乘法表（15 分钟）
@@ -206,6 +222,26 @@ int main(void) {
 }
 ```
 
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -std=c23 -o multiplication-table multiplication-table.c
+➜ ./multiplication-table
+1 * 1 = 1
+1 * 2 = 2  2 * 2 = 4
+1 * 3 = 3  2 * 3 = 6   3 * 3 = 9
+1 * 4 = 4  2 * 4 = 8   3 * 4 = 12  4 * 4 = 16
+1 * 5 = 5  2 * 5 = 10  3 * 5 = 15  4 * 5 = 20  5 * 5 = 25
+1 * 6 = 6  2 * 6 = 12  3 * 6 = 18  4 * 6 = 24  5 * 6 = 30  6 * 6 = 36
+1 * 7 = 7  2 * 7 = 14  3 * 7 = 21  4 * 7 = 28  5 * 7 = 35  6 * 7 = 42  7 * 7 = 49
+1 * 8 = 8  2 * 8 = 16  3 * 8 = 24  4 * 8 = 32  5 * 8 = 40  6 * 8 = 48  7 * 8 = 56  8 * 8 = 64
+1 * 9 = 9  2 * 9 = 18  3 * 9 = 27  4 * 9 = 36  5 * 9 = 45  6 * 9 = 54  7 * 9 = 63  8 * 9 = 72  9 * 9 = 81
+```
+
+</details>
+
+
 ---
 
 ### 练习 3：判断闰年（10 分钟）
@@ -242,6 +278,22 @@ int main(void) {
     return 0;
 }
 ```
+
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -std=c23 -o leap-year leap-year.c
+➜ ./leap-year
+请输入年份：2024
+2024 年是闰年
+➜ ./leap-year
+请输入年份：1900
+1900 年不是闰年
+```
+
+</details>
+
 
 ---
 
@@ -286,6 +338,24 @@ int main(void) {
     return 0;
 }
 ```
+
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -std=c23 -o numdigit2 numdigit2.c
+➜ ./numdigit2
+请输入一个正整数：12345
+位数：5
+各位数字之和：15
+➜ ./numdigit2
+请输入一个正整数：0
+位数：1
+各位数字之和：0
+```
+
+</details>
+
 
 ---
 
@@ -343,6 +413,22 @@ int main(void) {
     return 0;
 }
 ```
+
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -std=c23 -o prime prime.c
+➜ ./prime
+请输入一个正整数：17
+17 是素数
+➜ ./prime
+请输入一个正整数：100
+100 不是素数
+```
+
+</details>
+
 
 ---
 
@@ -402,6 +488,24 @@ int main(void) {
     return 0;
 }
 ```
+
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -std=c23 -o guess guess.c
+➜ ./guess
+我想了一个 1~100 的数字，请猜：50
+小了！再猜：75
+小了！再猜：88
+小了！再猜：94
+大了！再猜：91
+小了！再猜：93
+恭喜你，猜对了！共猜了 6 次
+```
+
+</details>
+
 
 ---
 
@@ -466,6 +570,21 @@ int main(void) {
     return 0;
 }
 ```
+
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -std=c23 -o bitwise bitwise.c
+➜ ./bitwise
+请输入一个无符号整数：42
+二进制：00000000000000000000000000101010
+1 的个数：3
+不是 2 的幂
+```
+
+</details>
+
 
 ---
 
@@ -569,6 +688,22 @@ int main(void) {
 }
 ```
 
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -std=c23 -o grade grade.c
+➜ ./grade
+请输入成绩：85
+等级: B
+➜ ./grade
+请输入成绩：55
+等级: F
+```
+
+</details>
+
+
 ---
 
 ### 练习 10：打印菱形（15 分钟）
@@ -634,6 +769,23 @@ int main(void) {
 }
 ```
 
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -std=c23 -o rhombus rhombus.c
+➜ ./rhombus
+输入菱形的层级(奇数)：5
+   *
+  ***
+ *****
+  ***
+   *
+```
+
+</details>
+
+
 ---
 
 ### 练习 11：最大公约数（10 分钟）
@@ -682,6 +834,22 @@ int main(void) {
     return 0;
 }
 ```
+
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -std=c23 -o gcd gcd.c
+➜ ./gcd
+请输入两个正整数: 18 30
+最大公约数是: 6
+➜ ./gcd
+请输入两个正整数: 7 13
+最大公约数是: 1
+```
+
+</details>
+
 
 ---
 
@@ -748,6 +916,30 @@ int main(void) {
 }
 ```
 
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -std=c23 -o guess2 guess2.c
+➜ ./guess2
+我想了一个 1~100 的数字，你有 7 次机会！
+第 1 次猜测：50
+小了
+第 2 次猜测：75
+小了
+第 3 次猜测：88
+小了
+第 4 次猜测：94
+大了
+第 5 次猜测：91
+小了
+第 6 次猜测：93
+恭喜你，猜对了！共猜了 6 次
+```
+
+</details>
+
+
 ---
 
 ### 练习 13：打印质数（15 分钟）
@@ -797,6 +989,20 @@ int main(void) {
     return 0;
 }
 ```
+
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -std=c23 -o prime2 prime2.c
+➜ ./prime2
+  2  3  5  7 11 13 17 19 23 29
+ 31 37 41 43 47 53 59 61 67 71
+ 73 79 83 89 97
+```
+
+</details>
+
 
 ---
 
@@ -850,6 +1056,23 @@ int main(void) {
 }
 ```
 
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -std=c23 -o digital-pyramid digital-pyramid.c
+➜ ./digital-pyramid
+输入一个正整数: 5
+    1
+   2 2
+  3 3 3
+ 4 4 4 4
+5 5 5 5 5
+```
+
+</details>
+
+
 ---
 
 ### 练习 15：Fibonacci 数列（10 分钟）
@@ -894,6 +1117,22 @@ int main(void) {
     return 0;
 }
 ```
+
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -std=c23 -o fibonacci fibonacci.c
+➜ ./fibonacci
+10
+1 1 2 3 5
+8 13 21 34 55
+89 144 233 377 610
+987 1597 2584 4181 6765
+```
+
+</details>
+
 ---
 
 ## 三、思考题
