@@ -257,14 +257,13 @@ int main(int argc, char *argv[]) {
 <details>
 <summary><strong>NOTE: 编译并运行</strong></summary>
 
-> [!NOTE]
-> ```shell
-> ➜ gcc -Wall -std=c23 -o dweight dweight.c
-> ➜ ./dweight
-> Dimensions: 12 x 10 x 8
-> Volume (cubic inches): 960
-> Dimensional weight (pounds): 6
-> ```
+```shell
+➜ gcc -Wall -std=c23 -o dweight dweight.c
+➜ ./dweight
+Dimensions: 12 x 10 x 8
+Volume (cubic inches): 960
+Dimensional weight (pounds): 6
+```
 
 </details>
 
@@ -322,17 +321,16 @@ int main(int argc, char *argv[]) {
 <details>
 <summary><strong>NOTE: 编译并运行</strong></summary>
 
-> [!NOTE]
-> ```shell
-> ➜ gcc -Wall -std=c23 -o dweight dweight2.c
-> ➜ ./dweight
-> Enter height of box: 8
-> Enter length of box: 12
-> Enter width of box: 10
-> Dimensions: 12 x 10 x 8
-> Volume (cubic inches): 960
-> Dimensional weight (pounds): 6
-> ```
+```shell
+➜ gcc -Wall -std=c23 -o dweight dweight2.c
+➜ ./dweight
+Enter height of box: 8
+Enter length of box: 12
+Enter width of box: 10
+Dimensions: 12 x 10 x 8
+Volume (cubic inches): 960
+Dimensional weight (pounds): 6
+```
 
 </details>
 
@@ -391,13 +389,12 @@ int main(void) {
 <details>
 <summary><strong>NOTE: 编译并运行</strong></summary>
 
-> [!NOTE]
-> ```shell
-> ➜ gcc -Wall -std=c23 -o celsius celsius.c
-> ➜ ./celsius
-> Enter Fahrenheit temperature: 212
-> Celsius equivalent: 100.00
-> ```
+```shell
+➜ gcc -Wall -std=c23 -o celsius celsius.c
+➜ ./celsius
+Enter Fahrenheit temperature: 212
+Celsius equivalent: 100.00
+```
 
 </details>
 
