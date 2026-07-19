@@ -74,7 +74,12 @@ timeline
 
 ## 目录
 
+### Level 0
+
 - [快速入门](getting-started.md)
+
+### Level 1
+
 - [控制语句](controls.md)
 - [表达式](expressions.md)
 - [基本值和数据](basic-types.md)
@@ -83,9 +88,23 @@ timeline
 - [函数](functions.md)
 - [库函数](library-functios.md)
 - [阶段2-练习](phase2-exercise.md)
-- [代码风](style.md)
+
+### Level 2
+
+- [代码风格](style.md)
 - [组织和文档](organization-documentation.md)
 - [指针](pointer.md)
 - [C 内存模型](memory-model.md)
 - [存储](storage.md)
+- [更复杂的处理和IO](involved-processing-and-IO.md)
+- [程序异常](program-failure.md)
+- [阶段3-练习](phase3-exercise.md)
 
+### Level 3
+
+- [性能](performance.md)
+- [函数式宏](function-like-macros.md)
+- [控制流中的变化](variations-in-control-flow.md)
+- [泛型编程](type-generic-programming.md)
+- [线程](threads.md)
+- [原子访问和内存一致性](atomic-access-and-memory-consistency.md)
