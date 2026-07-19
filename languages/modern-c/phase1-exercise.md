@@ -1297,6 +1297,22 @@ int main(void) {
 }
 ```
 
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -std=c23 -o rhombus rhombus.c
+➜ ./rhombus
+输入菱形的层级(奇数)：5
+   *
+  ***
+ *****
+  ***
+   *
+```
+
+</details>
+
 ### 挑战 2：哥德巴赫猜想验证
 
 验证 4~100 之间的所有偶数都可以表示为两个素数之和。
