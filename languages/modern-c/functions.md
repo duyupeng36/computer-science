@@ -281,5 +281,339 @@ int main(int argc, char* argv[]) {
 
 ## 递归
 
+函数的一个重要特性是 **封装**：函数是一个独立的封闭代码块——里面的东西外面看不见，用完就清干净
+
++ **作用域隔离**: 局部变量只在函数体内可见，不会与其他函数的同名变量冲突
++ **生命周期有限**: 函数执行期间（`return` 或执行到最后的 `}`）变量才存活，离开即销毁
++ **自动清理**: 函数结束后，所有局部状态自动回收，不留"垃圾"
+
+函数的每次调用都有一个 **独立且封闭内存空间** 用于存储函数的局部变量和参数。也就是说
+
++ **每次调用都是全新的**: 即使是同一个函数，每次调用都会创建一套新的局部变量，重新初始化
++ **嵌套调用互不干扰**: 调用链上层的函数还在运行时，下层调用有自己独立的变量副本
+
+> [!TIP]
+> 一句话： 每次函数调用都是一张"白纸"——全新变量、全新状态，层层独立
+
+操作系统使用 **栈** 这个结构来支撑函数的层层调用。这些是支持函数嵌套调用的基础。即使是 **递归调用** 也是如此工作的。
+
+> [!TIP]
+> 递归函数: 函数直接或间接 **调用自身**，每次递归层都有自己独立的局部变量
+
+**递归** 有两个非常重要的条件
+
++ **终止条件**: 结束递归的情形
++ **递推公式**: 用"更小的参数"调用自身
+
+### 示例程序：欧几里得算法
+
+欧几里得算法是用于求解两个数的 **最大公约数(Greatest Common Divisor, GCD)** 的算法，它是由欧几里得发明的算法
+
+> [!TIP]
+> GCD 的定义: 能够整除 $a$ 和 $b$ 所有数中的最大值
+>
+> $$GCD(a, b) = \max \{c \in N \ \vert\ c \mid a \wedge c \mid b\}$$
+>
+> $c \mid a$ 表示 $c$ 整除 $a$，即 $a = c \times k$；即 $a$ 是 $c$ 的整数倍
+>
+
+如果我们还假设 $a < b$，我们就很容易得到两个递推公式
+
+$$
+\begin{aligned}GCD(a, b) &= GCD(a, b - a) \\ % 更相减损术
+GCD(a, b) &= GCD(a, b\mod{a})  % 欧几里得算法(辗转相除法)
+\end{aligned}
+$$
+
+也就是说，如果我们减去较小的整数或者用另一个数的模替换两者中较大的整数，GCD 不会改变
+
+> [!TIP]
+> 假设 $a < b$，公式 $GCD(a, b) = GCD(a, b\mod{a})$ 成立的原因证明如下
+>
+> 充分条件: $d \mid a$ 且 $d \mid b$，$r = a - b\cdot q$ 推出 $GCD(a, b) = GCD(a, b\mod{a})$
+>
+>
+> $$\begin{aligned}r &= a - b\cdot q\\ &=d\cdot k_1 - (d \cdot k_2) \cdot q \\ &= d(k_1 - k_2 \cdot q)\end{aligned}$$
+>
+> 所以 $d \mid (a - b\cdot q)$。因此 $d \mid a$ 且 $d \mid (b \mod a)$
+>
+> ---
+>
+> 必要条件: $d \mid a$ 且 $d \mid r$，$r = a - b\cdot q$ 推出 $GCD(a, b\mod{a}) = GCD(a, b)$
+>
+> $$\begin{aligned}b &= a\cdot q + r\end{aligned}$$
+>
+> 所以 $d \mid (a\cdot q)$，$d \mid r$。因此 $d \mid (a\cdot q + r)$
+>
+> 另一个公式 $GCD(a, b) = GCD(a, b\mod{a})$ 的证明也是如此
+
+显然，这两个递推公式的终止条件都是其中最小的数为 $0$，另一个不为 $0$ 的数就是最大公约数
+
+$$
+GCD=(a, b) = \begin{cases}
+b & a = 0, b \ne 0 \\  % 终止条件
+GCD(b \mod a, a) & a \le b  % 递推公式
+\end{cases}
+$$
+
+下面的代码给出了欧几里得算法的 C 实现
+
+```c title="gcd2.c" linenums="1"
+/* gcd2.c - 使用递归实现欧几里得算法 */
+#include <stdio.h>
+#include <assert.h>
+
+// 递归核心：假设 a <= b
+inline size_t gcd2(size_t a, size_t b) {
+    if (!a) {
+        return b;  // 终止条件 a == 0
+    }
+    size_t r = b % a;   // 递推公式 r 一定小于 a
+    return gcd2(r, a);  // 递归调用
+}
+
+inline size_t gcd(size_t a, size_t b) {
+    assert(a && b);      // 前置条件检查 a != 0 并且 b != 0
+    if (a <= b) {
+        return gcd2(a, b);
+    } else {
+        return gcd2(b, a);
+    }
+}
+
+int main(void) {
+    size_t a = {0};
+    size_t b = {0};
+    printf("请输入两个正整数: ");
+    scanf("%zu%zu", &a, &b);
+
+    size_t result = gcd(a, b);
+    printf("最大公约数是: %zu\n", result);
+
+    return 0;
+}
+```
+
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -Wextra -std=c23 -o gcd2 gcd2.c
+➜ ./gcd2
+请输入两个正整数: 18 30
+最大公约数是: 6
+
+➜ ./gcd2
+请输入两个正整数: 7 13
+最大公约数是: 1
+
+➜ ./gcd2
+请输入两个正整数: 100 75
+最大公约数是: 25
+```
+
+</details>
+
+下面的 Unicode 图跟踪了 `gcd(18, 30)` 的调用过程
+
+```
+gcd2(18, 30)
+├── a=18, b=30, r=30%18=12
+├── gcd2(12, 18)
+│   ├── a=12, b=18, r=18%12=6
+│   ├── gcd2(6, 12)
+│   │   ├── a=6, b=12, r=12%6=0
+│   │   ├── gcd2(0, 6)
+│   │   │   └── a==0 → return 6  ← 终止
+│   │   └── return 6
+│   └── return 6
+└── return 6
+
+结果：gcd(18, 30) = 6
+```
+
+> [!TIP]
+> 每一层递归都有独立的 a, b, r 变量。这个示例程序，我们使用了 **包装函数** 保证前置条件，递归核心不做重复检查
+>
+> 好处：`assert` 在生产环境中可以关闭（`-DNDEBUG`），递归核心不做多余检查，性能最优
+
+### 示例程序：斐波拉契数列
+
+斐波拉契数列也是演示递归算法的常用例子。斐波拉契数量的递推公式为
+
+$$
+fib(n) = \begin{cases}
+1 & n \le 2 \\  % 终止条件
+fib(n-1) + fib(n-2) & n \gt 2  % 递推公式
+\end{cases}
+$$
+
+> [!TIP]
+> 斐波拉契数列的每一项是：1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, ...
+
+很显然使用 C 语言实现计算斐波拉契数列的第 $n$ 项的代码非常简单
+
+```c title="fib.c" linenums="1"
+/* fib.c - 斐波拉契数列 */
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+
+size_t fib(size_t n);
+
+int main(int argc, char* argv[argc + 1]) {
+
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s <number>\n", argv[0]);
+        return 1;
+    }
+
+    size_t number = strtoull(argv[1], nullptr, 10);
+
+    size_t result = fib(number);
+
+    printf("Fib n item: %zu\n", result);
+
+    return 0;
+}
+
+size_t fib(size_t n) {
+    assert(n != 0);
+    if (n < 3) {
+        return 1;  // 终止条件
+    } else {
+        return fib(n - 1) + fib(n - 2); // 递推公式
+    }
+}
+```
+
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -Wextra -std=c23 -o fib fib.c
+➜ ./fib 1
+Fib n item: 1
+
+➜ ./fib 2
+Fib n item: 1
+
+➜ ./fib 4
+Fib n item: 3
+
+➜ ./fib 10
+Fib n item: 55
+
+➜ ./fib 20
+Fib n item: 6765
+```
+
+</details>
+
+下面的 Unicode 图跟踪了 `fib(4)` 的计算过程
+
+```
+fib(4)
+├── n=4, n<3 → false
+├── fib(3)
+│   ├── n=3, n<3 → false
+│   ├── fib(2) → return 1    ← 终止
+│   └── fib(1) → return 1    ← 终止
+│   └── return 1+1 = 2
+├── fib(2) → return 1        ← 终止
+└── return 2+1 = 3
+
+结果：fib(4) = 3
+```
+
+> [!WARNING]
+> `fib(n)` 的调用次数本身也是斐波那契数列！`fib(50)` 需要约 $250$ 亿次调用，极慢。
+>
+> 具体原因就是存在 **大量重复计算**。`fib(4)` 中 `fib(2)` 被计算了 $2$ 次，`fib(3)` 被计算了 $1$ 次。参数越大，重复越多
+
+### 示例程序：斐波拉契数列的优化
+
+我们有两种方法来优化上述斐波拉契数列的程序：**缓存递归** 和 **改用迭代**
+
+> [!TIP]
+> 缓存递归的核心思想就是(空间换时间)：用一个数组缓存已计算的值，避免重复计算
+
+```c title="fib2.c" linenums="1"
+/* fib2.c - 斐波拉契数列(缓存递归) */
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+
+size_t fib(size_t n, size_t cache[static (n+1)]);
+
+int main(int argc, char* argv[argc + 1]) {
+
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s <number>\n", argv[0]);
+        return 1;
+    }
+
+    size_t number = strtoull(argv[1], nullptr, 10);
+
+    size_t cache[number+1];
+
+    for (size_t i = 0; i < number + 1; ++i) {
+        cache[i] = 0;
+    }
+    // 初始值
+    cache[1] = 1;
+    cache[2] = 1;
+
+    size_t result = fib(number, cache);
+
+    printf("Fib n item: %zu\n", result);
+
+    return 0;
+}
+
+// 前置条件：cache 数组被提取初始化为 {0, 1, 1, 0, 0, ...}
+size_t fib(size_t n, size_t cache[static (n+1)]) {
+    assert(n != 0);
+    // 第 n 项没有被计算，去计算
+    if (!cache[n]) {
+        cache[n] = fib(n-1, cache) + fib(n-2, cache);
+    }
+    // 第 n 项已经计算过了，直接返回
+    return cache[n];
+}
+```
+
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -Wextra -std=c23 -o fib2 fib2.c
+➜ ./fib2 1
+Fib n item: 1
+
+➜ ./fib2 2
+Fib n item: 1
+
+➜ ./fib2 4
+Fib n item: 3
+
+➜ ./fib2 10
+Fib n item: 55
+
+➜ ./fib2 20
+Fib n item: 6765
+
+➜ ./fib2 50
+Fib n item: 12586269025
+```
+
+</details>
+
+> [!TIP]
+> `cache[i]` 为 $0$ 表示还没算过 → 递归计算并存入；非 $0$ 表示已算过 → 直接返回。每个值只算一次
 
 
+另一种方法就直接选择迭代算法。就像在 [阶段1-练习#斐波拉契数列](phase1-exercise.md#练习-15fibonacci-数列10-分钟) 中介绍一样。**每一步只需记住前两个值，像滑动窗口一样往前推**。
+
+> [!TIP]
+> **优化不是靠"写更快的代码"，而是靠换更好的算法**。从朴素递归 → 缓存递归，仅仅是加了一个数组，就从 $O(\varphi^n)$ 降到 $O(n)$。
