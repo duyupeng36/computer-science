@@ -12,3 +12,7 @@ wheels/
 .vscode
 site
 *.pdf
+
+# Compiled binaries
+languages/modern-c/code/repdigit
+languages/modern-c/code/interest
