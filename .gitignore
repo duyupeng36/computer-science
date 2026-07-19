@@ -13,6 +13,7 @@ wheels/
 site
 *.pdf
 
-# Compiled binaries
-languages/modern-c/code/repdigit
-languages/modern-c/code/interest
+# C compiled binaries (no extension)
+languages/modern-c/code/*
+!languages/modern-c/code/*.c
+!languages/modern-c/code/*.h
