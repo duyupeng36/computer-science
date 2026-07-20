@@ -321,38 +321,38 @@ int main(int argc, char* argv[]) {
 
 $$
 \begin{aligned}GCD(a, b) &= GCD(a, b - a) \\ % 更相减损术
-GCD(a, b) &= GCD(a, b\mod{a})  % 欧几里得算法(辗转相除法)
+GCD(a, b) &= GCD(a, b \bmod a)  % 欧几里得算法(辗转相除法)
 \end{aligned}
 $$
 
 也就是说，如果我们减去较小的整数或者用另一个数的模替换两者中较大的整数，GCD 不会改变
 
 > [!TIP]
-> 假设 $a < b$，公式 $GCD(a, b) = GCD(a, b\mod{a})$ 成立的原因证明如下
+> 假设 $a < b$，公式 $GCD(a, b) = GCD(a, b \bmod a)$ 成立的原因证明如下
 >
-> 充分条件: $d \mid a$ 且 $d \mid b$，$r = a - b\cdot q$ 推出 $GCD(a, b) = GCD(a, b\mod{a})$
+> 充分条件: $d \mid a$ 且 $d \mid b$，$r = a - b\cdot q$ 推出 $GCD(a, b) = GCD(a, b \bmod a)$
 >
 >
 > $$\begin{aligned}r &= a - b\cdot q\\ &=d\cdot k_1 - (d \cdot k_2) \cdot q \\ &= d(k_1 - k_2 \cdot q)\end{aligned}$$
 >
-> 所以 $d \mid (a - b\cdot q)$。因此 $d \mid a$ 且 $d \mid (b \mod a)$
+> 所以 $d \mid (a - b\cdot q)$。因此 $d \mid a$ 且 $d \mid (b \bmod a)$
 >
 > ---
 >
-> 必要条件: $d \mid a$ 且 $d \mid r$，$r = a - b\cdot q$ 推出 $GCD(a, b\mod{a}) = GCD(a, b)$
+> 必要条件: $d \mid a$ 且 $d \mid r$，$r = a - b\cdot q$ 推出 $GCD(a, b \bmod a) = GCD(a, b)$
 >
 > $$\begin{aligned}b &= a\cdot q + r\end{aligned}$$
 >
 > 所以 $d \mid (a\cdot q)$，$d \mid r$。因此 $d \mid (a\cdot q + r)$
 >
-> 另一个公式 $GCD(a, b) = GCD(a, b\mod{a})$ 的证明也是如此
+> 另一个公式 $GCD(a, b) = GCD(a, b \bmod a)$ 的证明也是如此
 
 显然，这两个递推公式的终止条件都是其中最小的数为 $0$，另一个不为 $0$ 的数就是最大公约数
 
 $$
 GCD=(a, b) = \begin{cases}
 b & a = 0, b \ne 0 \\  % 终止条件
-GCD(b \mod a, a) & a \le b  % 递推公式
+GCD(b \bmod a, a) & a \le b  % 递推公式
 \end{cases}
 $$
 
