@@ -510,26 +510,60 @@ Fib n item: 6765
 
 </details>
 
-下面的 Unicode 图跟踪了 `fib(4)` 的计算过程
+下图跟踪了 `fib(5)` 的计算过程
 
-```
-fib(4)
-├── n=4, n<3 → false
-├── fib(3)
-│   ├── n=3, n<3 → false
-│   ├── fib(2) → return 1    ← 终止
-│   └── fib(1) → return 1    ← 终止
-│   └── return 1+1 = 2
-├── fib(2) → return 1        ← 终止
-└── return 2+1 = 3
+```mermaid
+graph TD
+    n5["fib(5) = 5"]
+    n4["fib(4) = 3"]
+    n3a["fib(3) = 2"]
+    n2a["fib(2) = 1"]
+    n1a["fib(1) = 1"]
+    n0a["fib(0) = 0"]
+    n1b["fib(1) = 1"]
+    n2b["fib(2) = 1"]
+    n1c["fib(1) = 1"]
+    n0b["fib(0) = 0"]
+    n3b["fib(3) = 2"]
+    n2c["fib(2) = 1"]
+    n1d["fib(1) = 1"]
+    n0c["fib(0) = 0"]
+    n2d["fib(2) = 1"]
+    n1f["fib(1) = 1"]
+    n0d["fib(0) = 0"]
 
-结果：fib(4) = 3
+    n5 --> n4
+    n5 --> n3b
+    n4 --> n3a
+    n4 --> n2b
+    n3a --> n2a
+    n3a --> n1b
+    n2a --> n1a
+    n2a --> n0a
+    n2b --> n1c
+    n2b --> n0b
+    n3b --> n2c
+    n3b --> n2d
+    n2c --> n1d
+    n2c --> n0c
+    n2d --> n1f
+    n2d --> n0d
+
+    classDef root fill:#89b4fa,color:#1e1e2e,font-weight:bold
+    classDef dup fill:#f38ba8,color:#1e1e2e,font-weight:bold
+    classDef leaf fill:#a6e3a1,color:#1e1e2e
+    classDef normal fill:#45475a,color:#cdd6f4
+
+    class n5 root
+    class n3a,n3b,n2a,n2b,n2c,n2d dup
+    class n1a,n1b,n1c,n1d,n1e,n1f,n0a,n0b,n0c,n0d leaf
+    class n4 normal
 ```
 
 > [!WARNING]
 > `fib(n)` 的调用次数本身也是斐波那契数列！`fib(50)` 需要约 $250$ 亿次调用，极慢。
 >
-> 具体原因就是存在 **大量重复计算**。`fib(4)` 中 `fib(2)` 被计算了 $2$ 次，`fib(3)` 被计算了 $1$ 次。参数越大，重复越多
+> 具体原因就是存在 **大量重复计算**(在跟踪图中，粉色(🟥)节点表示重复计算的子问题)。`fib(4)` 中 `fib(2)` 被计算了 $2$ 次，`fib(3)` 被计算了 $1$ 次。参数越大，重复越多
 
 ### 示例程序：斐波拉契数列的优化
 
