@@ -659,4 +659,494 @@ char* fgets(char s[restrict], int n, FILE* restrict stream) {
 }
 ```
 
+> [!TIP]
+> 函数 `fgets` 成功完成后，`fgets()` 应返回 `s`。如果失败，返回 `nullptr`
+
+### 示例程序: 简易 cat 程序
+
+这个示例程序我们实现一个简单的 cat 程序：读取文件中的内容并写入标准输出
+
+```c title="cat.c" linenums="1"
+/* cat.c - 将文件内容写入标准输出 */
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+
+enum {BUFF_SIZE = 32};
+
+
+int main(int argc, char* argv[argc + 1]) {
+    if (argc < 1) {
+        fprintf(stderr, "Usage: %s <filename> [<filename>...]", argv[0]);
+        return EXIT_FAILURE;
+    }
+    int ret = EXIT_FAILURE;
+    char buffer[BUFF_SIZE] = {};
+    for (int i = 1; i < argc; ++i) {
+        FILE* instream = fopen(argv[i], "r");
+        if (instream) {
+            while (fgets(buffer, BUFF_SIZE, instream)) {
+                fputs(buffer, stdout);
+            }
+            fclose(instream);
+            ret = EXIT_SUCCESS;
+        } else {
+            fprintf(stderr, "Could not open %s: ", argv[i]);
+            perror(0);
+            errno = 0;
+        }
+    }
+    return ret;
+}
+```
+
+> [!TIP]
+> 这里我们设置缓冲大小为 $32$ 个字符。即使程序遇到超过 $31$ 个字符的行也能正常工作，因为 `fgets` 每次最多读取 $BUFF_SIZE - 1$ 个字符，循环会继续读取剩余部分
+
+
 ## 字符串处理和转换
+
+C 中字符串处理要面对一个现实：**源代码和执行环境可能使用不同的字符编码**。关键是使用与编码无关的接口。
+
+### 字符分类和转换
+
+在 `<ctype.h>` 头文件中提供了 **分类** 和 **转换** 两类函数。它们分别是
+
+| 名称       | 含义                 | C 语言环境                       | 已扩展 |
+| ---------- | -------------------- | -------------------------------- | ------ |
+| `islower`  | 小写字母             | `a-z`                            | 是     |
+| `isupper`  | 大写字母             | `A-Z`                            | 是     |
+| `isalpha`  | 字母                 | `A-Z, a-z`                       | 是     |
+| `isdigit`  | 十进制数字           | `0-9`                            | 是     |
+| `isxdigit` | 十六进制数字         | `0-9, A-F, a-f`                  | 否     |
+| `isalnum`  | 字母或数字           | `A-Z, a-z, 0-9`                  | 否     |
+| `isspace`  | 空白字符             | `" ", \t, \v, \n, \f, \r`        | 是     |
+| `ispunct`  | 标点符号             | 除空格、字母、数字外的可打印字符 | 是     |
+| `isprint`  | 可打印字符           | `0x20-0x7E`                      | 是     |
+| `isgraph`  | 可见字符（不含空格） | `0x21-0x7E`                      | 是     |
+| `iscntrl`  | 控制字符             | `0x00-0x1F, 0x7F`                | 是     |
+| `isblank`  | 空白字符             | `" ", \t`                        | 是     |
+
+此外，还有两个转换函数 `toupper` 和 `tolower`
+
+```c
+int toupper(int c);  // 转大写，非字母不变
+int tolower(int c);  // 转小写，非字母不变
+```
+
+> [!WARNING]
+> 注意：所有这些函数的参数和返回值都是 `int`，这是历史原因
+
+### 转义字符
+
+> [!TIP]
+> **转义字符** 是用于表示无法通过键盘输入或者在 C 程序中无法直接表示的字符。
+
+C 标准提供了两种类型的转义字符：**字符型转义字符** 和 **数值型转义字符**。其中下表列出了 C 标准中可用的字符型转义字符
+
+| 转义 | 含义     |
+|------|----------|
+| `\'`   | 单引号   |
+| `\"`   | 双引号   |
+| `\?`   | 问号     |
+| `\\`   | 反斜杠   |
+| `\a`   | 响铃     |
+| `\b`   | 退格     |
+| `\f`   | 换页     |
+| `\n`   | 换行     |
+| `\r`   | 回车     |
+| `\t`   | 水平制表 |
+| `\v`   | 垂直制表 |
+
+数值型转义字符可以直接使用 **数值编码字符** 表示字符：可选择使用 **八进制** 或 **十六进制**
+
++ 八进制：`'\037'`（最多 $3$ 位八进制数字）
++ 十六进制：`'\xFFFF'`（`x` 后面的所有十六进制数字，注意这里的 `x` 是必须的）
+
+> [!WARNING]
+>  注意陷阱： `"\xdeBruyn"` 不等于 `"\xde"` `"Bruyn"`，而是 `"\xdeB"` 和 `"ruyn"`——**十六进制转义序列会贪婪地吸收后续的十六进制数字**
+
+> [!TIP]
+> 数值编码字符的解释取决于执行字符集。所以尽量避免使用数值编码，不是完全可移植的
+
+### 字符串转数值函数
+
+在 `<stdlib.h>` 中提供了丰富的字符串到数值的转换函数。下表列出了常用的数值转换函数
+
+| 函数      | 返回类型           |
+|-----------|--------------------|
+| `strtod`    | `double`             |
+| `strtof`    | `float`              |
+| `strtold`   | `long double`        |
+| `strtol`    | `long`               |
+| `strtoll`   | `long long`          |
+| `strtoul`   | `unsigned long`      |
+| `strtoull`  | `unsigned long long` |
+| `strtoimax` | `intmax_t`           |
+| `strtoumax` | `uintmax_t`          |
+
+> [!TIP]
+> `strtol` 系列的接口需要接收 $3$ 参数
+>
+>
+> ```c
+> unsigned long strtoul(char const nptr[restrict], char** restrict endptr, int base);
+> ```
+>
+> - `nptr` — 要转换的字符串
+> - `endptr` — 指向剩余未处理部分的指针（目前可以传 0/nullptr）
+> - `base` — 进制基数
+
+参数 `base` 的常用值包括：
+
+| base | 含义                                                               |
+|------|--------------------------------------------------------------------|
+| `0`    | 自动检测（根据前缀：`0x`=十六进制，`0b`=二进制，`0`=八进制，否则十进制） |
+| `2`    | 二进制                                                             |
+| `8`    | 八进制                                                             |
+| `10`   | 十进制                                                             |
+| `16`   | 十六进制                                                           |
+
+下面的示例函数 `hexatridecimal` 将字母数字字符转换为 $36$ 进制的值(`0-35`)，大小写字母映射到相同值。
+
+```c
+static_assert('z'-'a' == 25, "alphabetic characters not contiguous");
+
+unsigned hexatridecimal(int a) {
+    if (isdigit(a)) {
+        return a - '0';         // '0'..'9' => 0..9
+    } else {
+        a = toupper(a);
+        return (isupper(a)) ? 10 + (a - 'A') : -1;  // 'A'..'Z' => 10..35
+    }
+}
+```
+
+在 `<string.h>` 中还有两个字符串搜索函数
+
+```c
+// 返回 s 开头包含在 accept 中的连续字符数
+size_t strspn(char const s[static 1], char const accept[static 1]);
+// 返回 s 开头不包含在 reject 中的连续字符数
+size_t strcspn(char const s[static 1], char const reject[static 1]);
+```
+
+函数 `strspn` 计算字符串 `s` 开头有多少个连续字符在 `accept` 字符串中。函数 `strncspn` 则执行与 `strspn` 相反的功能(计算字符串 `s` 开头有多少个连续的字符不在 `reject` 字符串中)
+
+## 时间
+
+时间处理来自 `<time.h>`，有两大类时间：**日历时间** 和 **处理器时间**。下面我们首先看日历时间。C 库中用于处理日历时间的函数包括
+
+```c
+time_t time(time_t *t);                              // 获取当前时间戳
+double difftime(time_t time1, time_t time0);         // 计算两个时间的差（秒）
+time_t mktime(struct tm tm[1]);                      // struct tm 转 time_t
+size_t strftime(char s[static 1], size_t max,
+                char const format[static 1],
+                struct tm const tm[static 1]);       // 格式化时间字符串
+int timespec_get(struct timespec ts[static 1], int base);  // 获取高精度时间
+```
+
+`struct tm` 结构体用人类可读的方式来表示日历时间。该结构体涉及如下成员
+
+| 成员     | 含义       | 起始值                   |
+|----------|------------|--------------------------|
+| `tm_sec`   | 秒         | `0-60`（60 是闰秒）        |
+| `tm_min`   | 分钟       | `0-59`                     |
+| `tm_hour`  | 小时       | `0-23`                     |
+| `tm_mday`  | 日         | `1-31`（注意从1开始！）    |
+| `tm_mon`   | 月         | `0-11`（0=一月）           |
+| `tm_year`  | 年         | 需要加 `1900`              |
+| `tm_wday`  | 星期几     | `0-6`（0=周日）            |
+| `tm_yday`  | 年中第几天 | `0-365`                    |
+| `tm_isdst` | 夏令时标志 | 正数=是，`0`=否，负数=未知 |
+
+> [!WARNING]
+> `struct tm` 结构成员的计数方式不统一。其中 `tm_mday` 从 $1$ 开始，其他的从 $0$ 开始
+
+### mktime 函数
+
+函数 `mktime` 会做下面三件事情，然后返回 `struct tm` 对应的 `time_t` 类型的时间
+
+1. 规范化层级日期成员到各自范围
+2. 设置 `tm_wday` 和 `tm_yday`
+3. 如果 `tm_isdst` 为负，判断该日期是否处于夏令时
+
+> [!TIP]
+> `time_t` 类型表示的是线性时间戳
+>
+> - 线性时间尺度，适合计算
+> - 值为 `0` 的时刻称为纪元（`epoch`），通常是 `1970`年 `1` 月 `1` 日 `0` 时 `0` 分 `0` 秒
+> - 粒度通常是**秒**，但不保证
+> - `difftime` 将两个 `time_t` 的差转换为秒（`double` 类型）
+
+### 时间转换函数
+
+下面的几个函数用于在 `time_t` 和 `struct tm` 之间进行转换
+
+```c
+// 已弃用（使用全局状态，不安全）
+struct tm *gmtime(const time_t *timer);
+struct tm *localtime(const time_t *timer);
+
+// C23 安全版本
+time_t timegm(struct tm *timeptr);
+struct tm *gmtime_r(const time_t *timer, struct tm *buf);
+struct tm *localtime_r(const time_t *timer, struct tm *buf);
+```
+
+函数 `gmtime`(global time)将 `time_t` 类型转换为 `struct tm` 类型(UTC 时间)。函数 `localtime` 将 `time_t` 类型转换为 `struct tm` 类型(本地时间)
+
+> [!WARNING]
+> 注意：函数 `gmtime` 和 `localtime` 使用了全局状态，因此，它们是不可重入的函数。在新程序中，我们应该使用它们对应的可重入版本 `gmtime_r` 和 `localtime_r`
+
+函数 `gmtime_r` 和 `localtime_r` 是 `gmtime` 和 `localtime` 的可重入版本，它要求调用方自行提供 `struct tm` 对象用于存储转换结果
+
+### 时间字符串格式化
+
+函数 `strftime` 类似于 `printf`，但是 `%` 代码表示日期时间部分。下表列出了常用的时间代码
+
+| 代码 | 含义             | 示例       |
+|------|------------------|------------|
+| `%Y`   | 四位年份         | `2026`       |
+| `%m`   | 月份（01-12）    | `07`         |
+| `%d`   | 日（01-31）      | `20`         |
+| `%H`   | 小时（00-23）    | `14`         |
+| `%M`   | 分钟（00-59）    | `30`         |
+| `%S`   | 秒（00-60）      | `45`         |
+| `%A`   | 星期全名         | `Sunday`     |
+| `%a`   | 星期缩写         | `Sun`        |
+| `%B`   | 月份全名         | `July`       |
+| `%b`   | 月份缩写         | `Jul`        |
+| `%F`   | 等价于 `%Y-%m-%d`  | `2026-07-20` |
+| `%T`   | 等价于 `%H:%M:%S`  | `14:30:45`   |
+| `%c`   | 首选日期时间表示 | 平台相关   |
+| `%x`   | 首选日期表示     | 平台相关   |
+| `%X`   | 首选时间表示     | 平台相关   |
+| `%Z`   | 时区名           | `CST`        |
+| `%%`   | 字面 `%`           | `%`          |
+
+
+函数 `strftime` 的使用示例
+
+```c
+char buffer[100];
+time_t now = time(0);       // 获取本地时间戳
+
+struct tm local;
+localtime_r(&now, &local);  // 转换为本地 struct tm
+
+strftime(buffer, sizeof buffer, "%Y-%m-%d %H:%M:%S", &local); // 格式化
+printf("现在是：%s\n", buffer);
+```
+
+### 高精度时间
+
+类型 `time_t` 粒度通常只有秒。如果需要更高精度时间，需要使用函数 `timespce_get` 获取
+
+```c
+int timespec_get(struct timespec ts[static 1], int base);  // 获取高精度时间
+```
+
+类型 `struct timespec` 结构包含两个成员 `tv_sec` 和 `tv_nsec`；其中 `tv_sec` 是秒级精度，而 `tv_nsec` 是纳秒精度
+
+```c
+struct timespec ts;
+timespec_get(&ts, TIME_UTC);
+printf("秒：%ld，纳秒：%ld\n", ts.tv_sec, ts.tv_nsec);
+```
+
+### 处理器时间
+
+函数 `clock` 用于获取程序使用的处理器时间，单位 `CLOCK_PER_SEC` 分之一秒。用于测量程序的运行时间
+
+```c
+clock_t clock(void);
+```
+
+## 运行时环境设置
+
+### 获取环境变量
+
+C 程序可以访问 **环境列表**，称为 **环境变量**
+
+> [!TIP]
+> 环境变量:一组 **名称-值对** 的字符串
+
+函数 `getenv` 用于获取环境变量
+
+```c
+// 不安全
+char* getenv(char const name[static 1]);
+```
+
+- 返回指向环境变量值的指针
+- 如果变量不存在，返回 `nullptr`
+
+注意，函数 `getenv` 直接使用了全局状态，不安全的。其安全版本是 `getenv_s`
+
+```c
+errno_t getenv_s(size_t * restrict len,
+                char value[restrict],
+                rsize_t maxsize,
+                char const name[restrict]);
+```
+
+- 将环境变量的值复制到 `value` 缓冲区（最大 `maxsize` 字节）
+- `len` 可用于获取实际需要的长度
+- 返回 `0` 表示成功，非零表示失败或缓冲区不够
+
+
+例如，下面的示例函数用于打印当前环境列表
+
+```c
+void printenv(char const name[static 1]) {
+    if (getenv(name)) {
+        char value[256] = { };
+        if (getenv_s(nullptr, value, sizeof value, name)) {
+            fprintf(stderr, "%s: value is longer than %zu\n",
+                    name, sizeof value);
+        } else {
+            printf("%s=%s\n", name, value);
+        }
+    } else {
+        fprintf(stderr, "%s not in environment\n", name);
+    }
+}
+```
+
+常见环境变量
+
+| 变量   | 含义                 |
+|--------|----------------------|
+| `HOME`   | 用户主目录           |
+| `PATH`   | 可执行文件搜索路径   |
+| `LANG`   | 语言设置             |
+| `LC_ALL` | 覆盖所有 locale 设置 |
+
+### Locale 设置
+
+程序启动时，C 强制 locale 为标准化的 `"C"` locale（基本是美式英语）。函数 `setlocale` 用于修改 locale
+
+```c
+#include <locale.h>
+
+char* setlocale(int category, char const locale[static 1]);
+```
+
+第一个参数 `category` 的可选值在下表列出
+
+| 类别        | 影响范围                       |
+|-------------|--------------------------------|
+| LC_ALL      | 所有类别                       |
+| LC_COLLATE  | 字符串比较（strcoll, strxfrm） |
+| LC_CTYPE    | 字符分类（<ctype.h>）          |
+| LC_MONETARY | 货币格式                       |
+| LC_NUMERIC  | 数字格式（小数点等）           |
+| LC_TIME     | 时间格式（strftime）           |
+
+第二个参数 `locale` C 标准只规定了两个有效值
+
+- `""` 设置为系统默认
+- `"C"` 标准美式英语
+- `nullptr` 表示获取当前 `locale`
+
+> [!TIP]
+> 平台可能支持更多 `locale` 值（如 `"zh_CN.UTF-8"`），请查询平台文档
+
+## 程序终止和断言
+
+正常程序终止应该从 `main` 函数返回。在可能终止正常控制流的函数中，可以使用 `exit` 函数(在 `main` 函数中使用 `exit` 没有任何收益，直接使用 `return` 即可)
+
+程序终止函数有下面 $4$ 个，按照严重程度排序
+
+```c
+[[noreturn]] void exit(int status);            // 正常终止，执行清理
+[[noreturn]] void quick_exit(int status);      // 快速终止，执行快速清理
+[[noreturn]] void _Exit(int status);           // 立即终止，只做平台清理
+[[noreturn]] void abort(void);                 // 异常终止，不做清理
+```
+
+> [!WARNING]
+> 除非必须禁止清理操作，否则不要使用 `exit` 以外的终止函数
+>
+> - `exit` — 执行所有注册的 `atexit` 处理器，刷新关闭文件
+> - `quick_exit` — 执行 `at_quick_exit` 处理器，不执行 `atexit` 处理器
+> - `_Exit` — 只做平台清理（如关闭文件），不执行任何应用处理器
+> - `abort` — 不做清理，直接终止
+
+程序终止时，可能需要执行一些清理动作。这些清理动作有 `atext` 和 `at_quick_exit` 函数注册
+
+```c
+int atexit(void func(void));           // 注册 exit 时执行的处理器
+int at_quick_exit(void func(void));    // 注册 quick_exit 时执行的处理器
+```
+
+下面的示例代码片段演示 `atexit` 的用法
+
+```c
+void sayGoodBye(void) {
+    if (errno) perror("terminating with error condition");
+    fputs("Good Bye\n", stderr);
+}
+
+int main(int argc, char* argv[argc+1]) {
+    atexit(sayGoodBye);
+    // ... 程序代码 ...
+}
+```
+
+注意：传给 `atexit` 的是函数名本身（没有括号），表示传递函数引用，不是调用它。
+
+> [!TIP]
+> 适用场景：
+>
+> - 释放资源
+> - 写终止时间戳到日志
+> - 打印诊断信息
+
+### 断言
+
+#### 编译时断言
+
+C23 标准引入了 `static_assert` 关键字用于执行编译时断言
+
+```c
+static_assert(sizeof(测试条件, 提示信息);
+```
+
+> [!WARNING]
+> 测试条件必须在编译时成立的条件。**条件为假时中止编译** 并输出提示信息
+
+例如
+
+```c
+static_assert(sizeof(double) == sizeof(long double), "Extra precision needed for convergence.");
+```
+
+#### 运行时断言
+
+头文件 `<assert.h>` 提供了一个宏 `assert(condition)`：如果运行时 `condition` 不成立，打印诊断信息并调用 `abort`。例如
+
+```c
+#include <assert.h>
+
+int gcd(int a, int b) {
+    assert(a > 0 && b > 0);  // 确保参数为正
+    while (b) {
+        int t = b;
+        b = a % b;
+        a = t;
+    }
+    return a;
+}
+```
+
+使用尽可能多的 `assert` 来确认运行时属性。在调试阶段非常有用，能快速定位错误假设
+
+> [!WARNING]
+> **生产环境禁用 assert**: 在生产编译中使用 `NDEBUG` 禁用所有 `assert`
+>
+> - 编译时定义 `NDEBUG`，`assert` 就不会执行
+> - 通常通过编译器命令行设置：`gcc -DNDEBUG ...`
+> - 因为 `assert` 会调用 `abort`，不适合给用户看到
