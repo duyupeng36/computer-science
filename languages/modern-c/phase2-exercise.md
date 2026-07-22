@@ -46,7 +46,7 @@ void puts(char const s[static 1]);
 答案: 这几个函数都是用于终止程序的。但是最好只是用 `exit` 函数。它们之间的区别如下
 
 + `exit` 函数用于终止程序。在程序正式结束前会调用 `atexit` 注册的清理函数，释放程序资源
-+ `quick_exit` 函数用于快速终止程序。在程序终止前会调用 `at_quict_exit` 注册的函数
++ `quick_exit` 函数用于快速终止程序。在程序终止前会调用 `at_quick_exit` 注册的函数
 + `_Exit` 函数用于终止程序，但是它只做平台清理
 + `abort` 函数立即终止程序，不做任何清理
 
@@ -72,7 +72,7 @@ printf("c = %u\n", (unsigned)c);
 
 **题目 8**：解释 `sizeof` 和 `strlen` 的区别。
 
-答案: 两者有三个关键区别
+答案: 两者有两个关键区别
 
 + `sizeof` 是**运算符**，在**编译时**求值；`strlen` 是**函数**，在**运行时**求值
 + `sizeof` 计算对象或类型占用的**字节数**，**包含** `\0` 终止符；`strlen` 计算字符串的**字符数**，**不包含** `\0`
@@ -291,9 +291,9 @@ struct student {
     double grade;
 };
 
-double st_grade_avg(Student studengs[static 1], int size);
-Student* st_grade_max(Student studentS[static 1], int size);
-Student* st_grade_min(Student studentS[static 1], int size);
+double st_grade_avg(Student students[static 1], int size);
+Student* st_grade_max(Student students[static 1], int size);
+Student* st_grade_min(Student students[static 1], int size);
 void st_sort(Student students[static 1], int size);
 
 int main(void) {
@@ -326,10 +326,10 @@ int main(void) {
     return 0;
 }
 
-double st_grade_avg(Student studengs[static 1], int size) {
+double st_grade_avg(Student students[static 1], int size) {
     double result = {0};
     for (size_t i = 0; i < size; ++i) {
-        result += studengs[i].grade;
+        result += students[i].grade;
     }
     return result / size;
 }
@@ -407,6 +407,7 @@ int main(int argc, char* argv[argc + 1]) {
     FILE *dst = fopen(argv[2], "wb");
     if (!dst) {
         perror("fopen");
+        fclose(src);
         return 1;
     }
     int ch = {0};
@@ -417,9 +418,13 @@ int main(int argc, char* argv[argc + 1]) {
         }
     }
     if (feof(src)) {
+        fclose(src);
+        fclose(dst);
         return 0;
     } else {
         perror("fgetc");
+        fclose(src);
+        fclose(dst);
         return 1;
     }
 }
@@ -484,7 +489,7 @@ int main(void) {
     double diff = fabs(difftime(t1, t2));  // 两个日期相差多少秒
     double days = diff / ONE_DAY_SEC;
 
-    printf("两个日期相差 %.0f\n", days);
+    printf("两个日期相差 %.0f天\n", days);
 
     return 0;
 }
@@ -724,6 +729,10 @@ int binary_search_recursion(int array[static 1], int size, int target) {
 
 
 bool is_power_of_two(int number) {
+    if (number == 0) {
+        return false;
+    }
+
     if (number < 0) {
         number = -number;
     }
