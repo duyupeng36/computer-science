@@ -986,6 +986,133 @@ int main(void) {
 
 ---
 
+### 练习 11：整数进制转换器（20 分钟）
+
+编写程序，将整数在不同进制之间转换。
+
+**要求**：
+
+- 将十进制整数转换为二进制、八进制、十六进制字符串
+- 将二进制、八进制、十六进制字符串转换为十进制整数
+- 使用手动算法实现，不直接使用 `printf` 的 `%x` `%o` 格式
+- 处理负数
+
+**示例输出**：
+
+```
+255 -> 二进制: 11111111
+255 -> 八进制: 377
+255 -> 十六进制: ff
+11111111 -> 十进制: 255
+377 -> 十进制: 255
+ff -> 十进制: 255
+```
+
+答案:
+
+```c title="base-convert.c"
+/* base-convert.c - 整数进制转换器 */
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+/* 十进制转任意进制字符串（2/8/16） */
+void dec_to_base(unsigned int number, int base, char buf[static 65]) {
+    if (number == 0) {
+        buf[0] = '0';
+        buf[1] = '\0';
+        return;
+    }
+
+    char const digits[] = "0123456789abcdef";
+    char tmp[65];
+    int len = 0;
+
+    while (number > 0) {
+        tmp[len++] = digits[number % base];
+        number /= base;
+    }
+
+    /* 反转 */
+    for (int i = 0; i < len; ++i) {
+        buf[i] = tmp[len - 1 - i];
+    }
+    buf[len] = '\0';
+}
+
+/* 任意进制字符串转十进制（2/8/16） */
+unsigned int base_to_dec(char const str[static 1], int base) {
+    unsigned int result = 0;
+    for (size_t i = 0; str[i]; ++i) {
+        int digit = 0;
+        if (isdigit((unsigned char)str[i])) {
+            digit = str[i] - '0';
+        } else {
+            digit = tolower((unsigned char)str[i]) - 'a' + 10;
+        }
+        result = result * base + digit;
+    }
+    return result;
+}
+
+int main(void) {
+    char buf[65] = {};
+    int number = 0;
+
+    /* 十进制 -> 其他进制 */
+    printf("输入一个十进制整数: ");
+    scanf("%d", &number);
+
+    unsigned int abs_val = (number < 0) ? -(unsigned int)number : (unsigned int)number;
+    char const *sign = (number < 0) ? "-" : "";
+
+    dec_to_base(abs_val, 2, buf);
+    printf("%d -> 二进制: %s%s\n", number, sign, buf);
+
+    dec_to_base(abs_val, 8, buf);
+    printf("%d -> 八进制: %s%s\n", number, sign, buf);
+
+    dec_to_base(abs_val, 16, buf);
+    printf("%d -> 十六进制: %s%s\n", number, sign, buf);
+
+    /* 其他进制 -> 十进制 */
+    printf("\n二进制 11111111 -> 十进制: %u\n", base_to_dec("11111111", 2));
+    printf("八进制 377 -> 十进制: %u\n", base_to_dec("377", 8));
+    printf("十六进制 ff -> 十进制: %u\n", base_to_dec("ff", 16));
+
+    return 0;
+}
+```
+
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -Wextra -std=c23 -o base-convert base-convert.c
+➜ ./base-convert
+输入一个十进制整数: 255
+255 -> 二进制: 11111111
+255 -> 八进制: 377
+255 -> 十六进制: ff
+
+二进制 11111111 -> 十进制: 255
+八进制 377 -> 十进制: 255
+十六进制 ff -> 十进制: 255
+➜ ./base-convert
+输入一个十进制整数: -42
+-42 -> 二进制: -101010
+-42 -> 八进制: -52
+-42 -> 十六进制: -2a
+
+二进制 11111111 -> 十进制: 255
+八进制 377 -> 十进制: 255
+十六进制 ff -> 十进制: 255
+```
+
+</details>
+
+---
+
 ## 三、思考题
 
 **思考题 1**：为什么 C 语言中数组作为函数参数会退化为指针？这样设计有什么优缺点？
