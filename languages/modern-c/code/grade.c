@@ -6,8 +6,7 @@ int main(void) {
     printf("请输入成绩：");
     scanf("%d", &grade);
 
-    switch (grade / 10)
-    {
+    switch (grade / 10) {
     case 10:
         [[fallthrough]];
     case 9:

@@ -7,7 +7,7 @@
 ## 一、基础概念题（口头回答）
 
 
-**题目 1**：解释 C 程序从源代码到可执行文件的编译流程。
+**题目 1**【快速入门】：解释 C 程序从源代码到可执行文件的编译流程。
 
 答案:
 
@@ -17,7 +17,7 @@
 + **链接**: 链接程序使用的库函数、启动代码等，从而生成可执行文件
 
 
-**题目 2**：以下代码的输出是什么？为什么？
+**题目 2**【表达式】：以下代码的输出是什么？为什么？
 
 ```c
 int x = 10;
@@ -28,11 +28,11 @@ printf("y = %d\n", y);
 答案: 同一个表达式中出现两个及以上的副作用属于未定义行为。输出结果不可知
 
 
-**题目 3**：`struct` 和 `typedef struct` 的区别是什么？
+**题目 3**【派生类型】：`struct` 和 `typedef struct` 的区别是什么？
 
 答案：`struct` 是定义结构类型，而 `typedef struct` 只是单纯的给 `struct` 类型取一个别名
 
-**题目 4**：以下函数声明中 `static 1` 是什么意思？
+**题目 4**【派生类型】：以下函数声明中 `static 1` 是什么意思？
 
 ```c
 void puts(char const s[static 1]);
@@ -41,7 +41,7 @@ void puts(char const s[static 1]);
 答案：在函数声明中 `[static 1]` 表示要求实参至少是能够存储 $1$ 个元素的数组
 
 
-**题目 5**：解释 `exit`、`quick_exit`、`_Exit`、`abort` 的区别。
+**题目 5**【函数】：解释 `exit`、`quick_exit`、`_Exit`、`abort` 的区别。
 
 答案: 这几个函数都是用于终止程序的。但是最好只是用 `exit` 函数。它们之间的区别如下
 
@@ -51,11 +51,11 @@ void puts(char const s[static 1]);
 + `abort` 函数立即终止程序，不做任何清理
 
 
-**题目 6**：为什么 `fgetc` 返回 `int` 而不是 `char`？
+**题目 6**【库函数】：为什么 `fgetc` 返回 `int` 而不是 `char`？
 
 答案: 因为 `fgetc` 会返回 `EOF`，它是一个负值。但是，`char` 是否带符号是由实现定义的，因此 `char` 可能无法表示 `EOF`
 
-**题目 7**：以下代码的输出是什么？请逐步解释。
+**题目 7**【基本类型】：以下代码的输出是什么？请逐步解释。
 
 ```c
 unsigned char a = 255;
@@ -70,7 +70,7 @@ printf("c = %u\n", (unsigned)c);
 + 将 256 赋值给 `unsigned char` 类型的 `c` 时发生溢出，结果为 $256 \mod {2^{8 \times sizeof(unsigned char)}}$
 + 在我的平台上，`sizeof(unsigned char)` 的值为 $1$。因此，`c` 的值是 $0$
 
-**题目 8**：解释 `sizeof` 和 `strlen` 的区别。
+**题目 8**【库函数】：解释 `sizeof` 和 `strlen` 的区别。
 
 答案: 两者有两个关键区别
 
@@ -83,7 +83,7 @@ sizeof(s);  // 6（5个字符 + '\0'）
 strlen(s);  // 5
 ```
 
-**题目 9**：以下代码有什么问题？
+**题目 9**【库函数】：以下代码有什么问题？
 
 ```c
 char src[] = "hello";
@@ -94,7 +94,7 @@ strcpy(dst, src);
 答案: 缓冲区溢出。`strcpy` 会复制包括 `\0` 终止符在内的所有字符，因此需要 `strlen(src) + 1` 字节的空间。`src` 需要 6 字节（5个字符 + `\0`），而 `dst` 只有 3 字节，`strcpy` 会越界写入，这是未定义行为
 
 
-**题目 10**：以下代码的输出是什么？为什么？
+**题目 10**【表达式】：以下代码的输出是什么？为什么？
 
 ```c
 int a = 5;
@@ -106,7 +106,7 @@ printf("c = %d\n", c);
 答案: 输出内容是 `c = 0`。由于 `b` 的值是 $0$，`b != 0` 这个表达式不成立。运算符 `&&` 由短路特性，左表达式为 `false` 直接决定了整个表达式的值。输出结果为 `0`(`false`)
 
 
-**题目 11**：`enum` 的成员值默认是什么？以下枚举中各成员的值是多少？
+**题目 11**【基本类型】：`enum` 的成员值默认是什么？以下枚举中各成员的值是多少？
 
 ```c
 enum Color { RED, GREEN = 10, BLUE, YELLOW = 20, CYAN };
@@ -121,7 +121,7 @@ enum Color { RED, GREEN = 10, BLUE, YELLOW = 20, CYAN };
 + `CYAN == 21`
 
 
-**题目 12**：以下代码的输出是什么？请解释隐式类型转换的过程。
+**题目 12**【基本类型】：以下代码的输出是什么？请解释隐式类型转换的过程。
 
 ```c
 int a = -1;
@@ -139,7 +139,7 @@ if (a < b) {
 
 ## 二、编程题
 
-### 练习 1：字符串转整数（20 分钟）
+### 练习 1：字符串转整数（20 分钟）【库函数、快速入门】
 
 实现类似 `atoi` 的函数，将字符串转换为整数。
 
@@ -163,7 +163,7 @@ if (a < b) {
 
 答案:
 
-```c title="atoi.c"
+```c
 /* atoi.c - 实现 atoi 将字符串转换为 int 类型的值 */
 #include <stdio.h>
 #include <string.h>
@@ -242,9 +242,21 @@ bool atoi(char const str[static 1],  int* result) {
 }
 ```
 
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -Wextra -std=c23 -o atoi atoi.c
+➜ ./atoi
+输入:   -123abc
+输出: -123
+```
+
+</details>
+
 ---
 
-### 练习 2：学生成绩管理（25 分钟）
+### 练习 2：学生成绩管理（25 分钟）【派生类型、库函数】
 
 编写程序，管理学生成绩。
 
@@ -275,7 +287,7 @@ bool atoi(char const str[static 1],  int* result) {
 
 答案:
 
-```c title="students.c"
+```c
 /* student.c - 2：学生成绩管理 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -363,9 +375,44 @@ void st_sort(Student students[static 1], int size) {
 }
 ```
 
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -Wextra -std=c23 -o students students.c
+➜ ./students
+请输入 5 个学生信息:
+学生 1 姓名: 张三
+学生 1 学号: 1001
+学生 1 成绩: 85
+学生 2 姓名: 李四
+学生 2 学号: 1002
+学生 2 成绩: 95
+学生 3 姓名: 王五
+学生 3 学号: 1003
+学生 3 成绩: 68
+学生 4 姓名: 赵六
+学生 4 学号: 1004
+学生 4 成绩: 78
+学生 5 姓名: 钱七
+学生 5 学号: 1005
+学生 5 成绩: 76
+平均分: 80.40
+最高分: 95.00
+最低分: 68.00
+排序后:
+1. 王五 68.00
+2. 钱七 76.00
+3. 赵六 78.00
+4. 张三 85.00
+5. 李四 95.00
+```
+
+</details>
+
 ---
 
-### 练习 3：文件复制程序（15 分钟）
+### 练习 3：文件复制程序（15 分钟）【函数、库函数】
 
 编写程序，将一个文件的内容复制到另一个文件。
 
@@ -388,7 +435,7 @@ $ ./copy nonexistent.txt dest.txt
 
 答案:
 
-```c title="copy.c"
+```c
 /* copy.c - 实现 cp 指令 */
 #include <stdio.h>
 
@@ -430,9 +477,25 @@ int main(int argc, char* argv[argc + 1]) {
 }
 ```
 
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -Wextra -std=c23 -o copy copy.c
+➜ echo "hello world" > source.txt
+➜ ./copy source.txt dest.txt
+复制完成！
+➜ cat dest.txt
+hello world
+➜ ./copy nonexistent.txt dest.txt
+fopen: No such file or directory
+```
+
+</details>
+
 ---
 
-### 练习 4：日期计算器（20 分钟）
+### 练习 4：日期计算器（20 分钟）【库函数】
 
 编写程序，计算两个日期之间相差的天数。
 
@@ -453,7 +516,7 @@ int main(int argc, char* argv[argc + 1]) {
 
 答案
 
-```c title="datediff.c"
+```c
 /* datediff.c - 计算两个日期相差的天数 */
 #include <stdio.h>
 #include <time.h>
@@ -495,9 +558,22 @@ int main(void) {
 }
 ```
 
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -Wextra -std=c23 -o datediff datediff.c
+➜ ./datediff
+请输入第一个日期（年 月 日）：2024 1 1
+请输入第二个日期（年 月 日）：2024 12 31
+两个日期相差 365 天
+```
+
+</details>
+
 ---
 
-### 练习 5：冒泡排序（15 分钟）
+### 练习 5：冒泡排序（15 分钟）【派生类型】
 
 编写程序，实现冒泡排序算法。
 
@@ -519,7 +595,7 @@ int main(void) {
 
 答案:
 
-```c title="bubble-sort.c"
+```c
 /* bubble-sort.c - 冒泡排序 */
 #include <stdio.h>
 
@@ -569,9 +645,23 @@ void bubble_sort(int array[static 1], int size) {
 }
 ```
 
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -Wextra -std=c23 -o bubble-sort bubble-sort.c
+➜ ./bubble-sort
+输入数组大小: 5
+输入 5 个整数: 64 25 12 22 11
+排序前: 64 25 12 22 11
+排序后: 11 12 22 25 64
+```
+
+</details>
+
 ---
 
-### 练习 6：二分查找（15 分钟）
+### 练习 6：二分查找（15 分钟）【派生类型】
 
 编写程序，实现二分查找算法。
 
@@ -594,7 +684,7 @@ void bubble_sort(int array[static 1], int size) {
 
 答案:
 
-```c title="binary-search.c"
+```c
 /* binary-search.c - 二分查找 */
 #include <stdio.h>
 
@@ -671,9 +761,24 @@ int binary_search_recursion(int array[static 1], int size, int target) {
 }
 ```
 
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -Wextra -std=c23 -o binary-search binary-search.c
+➜ ./binary-search
+输入数组大小: 7
+输入 7 个已排序的整数: 2 5 8 12 16 23 38
+输入目标值: 16
+迭代法: 找到, 索引 = 4
+递归法: 找到, 索引 = 4
+```
+
+</details>
+
 ---
 
-### 练习 7：递归与斐波那契数列（15 分钟）
+### 练习 7：递归与斐波那契数列（15 分钟）【函数】
 
 编写程序，实现斐波那契数列。
 
@@ -699,7 +804,7 @@ int binary_search_recursion(int array[static 1], int size, int target) {
 
 ---
 
-### 练习 8：位运算操作（20 分钟）
+### 练习 8：位运算操作（20 分钟）【基本类型】
 
 编写程序，实现以下位操作功能。
 
@@ -723,7 +828,7 @@ int binary_search_recursion(int array[static 1], int size, int target) {
 
 答案：
 
-```c title="bitop.c"
+```c
 /* bitop.c - 位操作 */
 #include <stdio.h>
 
@@ -804,9 +909,27 @@ int main(void) {
 }
 ```
 
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -Wextra -std=c23 -o bitop bitop.c
+➜ ./bitop
+16 是 2 的幂: 是
+7 是 2 的幂: 否
+7 中 1 的个数: 3
+255 中 1 的个数: 8
+交换前: a=5, b=9
+交换后: a=9, b=5
+将 0b1010 的第 1 位设为 1: 0b1010
+将 0b1111 的第 2 位清零: 0b1011
+```
+
+</details>
+
 ---
 
-### 练习 9：字符串操作函数（20 分钟）
+### 练习 9：字符串操作函数（20 分钟）【派生类型】
 
 不使用 `<string.h>`，手动实现以下字符串操作函数。
 
@@ -830,7 +953,7 @@ my_strchr("hello", 'l') = "llo"
 
 答案:
 
-```c title="strings.c"
+```c
 /* strings.c - 实现 str 相关的函数
 - `my_strlen` — 计算字符串长度
 - `my_strcpy` — 复制字符串
@@ -920,9 +1043,27 @@ int main(void) {
 }
 ```
 
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -Wextra -std=c23 -o strings strings.c
+➜ ./strings
+my_strlen("hello") = 5
+my_strcpy: "hello world"
+my_strcat: "hello world"
+my_strcmp("abc", "abd") = -1
+my_strcmp("abc", "abc") = 0
+my_strcmp("abd", "abc") = 1
+my_strchr("hello", 'l') = "llo"
+my_strchr("hello", 'z') = (null)
+```
+
+</details>
+
 ---
 
-### 练习 10：枚举与复合字面量（15 分钟）
+### 练习 10：枚举与复合字面量（15 分钟）【基本类型】
 
 编写程序，使用枚举和复合字面量实现一个简易的形状面积计算器。
 
@@ -943,7 +1084,7 @@ int main(void) {
 
 答案:
 
-```c title="enum-composite.c"
+```c
 /* enum-composite.c - 枚举与复合字面量 */
 #define _GNU_SOURCE
 #include <stdio.h>
@@ -993,9 +1134,22 @@ int main(void) {
 }
 ```
 
+<details>
+<summary><strong>NOTE: 编译并运行</strong></summary>
+
+```shell
+➜ gcc -Wall -Wextra -std=c23 -o enum-composite enum-composite.c -lm
+➜ ./enum-composite
+圆形（半径=5.0）面积: 78.54
+矩形（宽=4.0，高=6.0）面积: 24.00
+三角形（底=3.0，高=8.0）面积: 12.00
+```
+
+</details>
+
 ---
 
-### 练习 11：整数进制转换器（20 分钟）
+### 练习 11：整数进制转换器（20 分钟）【基本类型、库函数】
 
 编写程序，将整数在不同进制之间转换。
 
@@ -1019,7 +1173,7 @@ ff -> 十进制: 255
 
 答案:
 
-```c title="base-convert.c"
+```c
 /* base-convert.c - 整数进制转换器 */
 #include <stdio.h>
 #include <string.h>
@@ -1124,11 +1278,11 @@ int main(void) {
 
 ## 三、思考题
 
-**思考题 1**：为什么 C 语言中数组作为函数参数会退化为指针？这样设计有什么优缺点？
+**思考题 1**【派生类型】：为什么 C 语言中数组作为函数参数会退化为指针？这样设计有什么优缺点？
 
 答案：C 语言参考了 B 语言的设计。将数组退化为指针传递时不用拷贝所有数组成员。提升传递数组参数的效率。但是，函数可以直接修改实参的值。
 
-**思考题 2**：`assert` 和 `static_assert` 的区别是什么？分别在什么场景下使用？
+**思考题 2**【库函数】：`assert` 和 `static_assert` 的区别是什么？分别在什么场景下使用？
 
 答案: `assert` 是运行时断言，而 `static_assert` 是静态断言
 
@@ -1136,11 +1290,11 @@ int main(void) {
 + `static_assert`：条件在编译时确定的情况下进行编译时断言
 
 
-**思考题 3**：为什么 C 语言没有垃圾回收机制？这对程序员有什么影响？
+**思考题 3**【函数】：为什么 C 语言没有垃圾回收机制？这对程序员有什么影响？
 
 答案：C 语言设计之初时用于开发操作系统的。这需要语言保持高性能，引入垃圾回收机制势必会影响程序性能，不符合设计要求。
 
-**思考题 4**：以下代码在不同平台上可能输出不同的结果，为什么？
+**思考题 4**【基本类型】：以下代码在不同平台上可能输出不同的结果，为什么？
 
 ```c
 printf("%zu\n", sizeof(int));
@@ -1150,7 +1304,7 @@ printf("%zu\n", sizeof(long));
 答案：C 标准没有规定基本类型的尺寸，只规定了类型范围的包含关系。不同的平台上，`int` 和 `long` 的尺寸可能相同（例如，Windows），但是它们也是两种类型
 
 
-**思考题 5**：为什么以下代码的结果可能不符合预期？
+**思考题 5**【基本类型】：为什么以下代码的结果可能不符合预期？
 
 ```c
 double d = 0.1 + 0.2;
@@ -1163,7 +1317,7 @@ if (d == 0.3) {
 
 答案: 十进制小数使用二进制表示时，由于二进制位模式长度限制，导致无法完整的表示。因此，计算机上的浮点数是无法精确表示一个十进制小数的。
 
-**思考题 6**：`#define SQUARE(x) x * x` 这个宏有什么问题？请给出正确写法。
+**思考题 6**【快速入门】：`#define SQUARE(x) x * x` 这个宏有什么问题？请给出正确写法。
 
 答案:
 1. `x` 只是简单文本，不是值。应该将 `x` 包含在括号内。
@@ -1179,7 +1333,7 @@ if (d == 0.3) {
 
 ## 四、挑战题
 
-### 挑战 1：实现简易版 `printf`（30 分钟）
+### 挑战 1：实现简易版 `printf`（30 分钟）【函数】
 
 实现一个简化版的 `printf`，支持以下格式说明符：
 
@@ -1202,7 +1356,7 @@ my_printf("Hello, %s! You are %d years old.\n", "Alice", 25);
 // 输出: Hello, Alice! You are 25 years old.
 ```
 
-### 挑战 2：实现链表（30 分钟）
+### 挑战 2：实现链表（30 分钟）【派生类型】
 
 实现一个单链表，支持以下操作：
 

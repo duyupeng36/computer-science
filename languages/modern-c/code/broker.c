@@ -11,7 +11,7 @@ int main(void) {
 
     if (value < 2'500.0) {
         commission = 30 + 0.017 * value;
-    } else if(value < 6'250.0) {
+    } else if (value < 6'250.0) {
         commission = 56 + 0.0066 * value;
     } else if (value < 20'000.0) {
         commission = 76 + 0.0034 * value;

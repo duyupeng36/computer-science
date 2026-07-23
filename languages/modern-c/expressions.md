@@ -97,7 +97,7 @@ $$
 **注意**：在 UPC-A 的校验位计算中，奇数位权重为 $3$，偶数位权重为 $1$。
 
 
-```c title="upc.c" linenums="1"
+```c
 #include <stdio.h>
 
 int main(void) {
@@ -237,7 +237,7 @@ if (b != 0 && (a / b) > 1) {
 
 下面的示例程序要求用户提供年龄、收入、存款，并输出用户是否可以申请贷款，贷款额度是多少
 
-```c title="loans.c" linenums="1"
+```c
 /* loans.c - 判断申请人能否申请贷款 */
 #include <stdio.h>
 

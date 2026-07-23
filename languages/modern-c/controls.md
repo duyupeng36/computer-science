@@ -241,7 +241,7 @@ if (n < 0) {
 
 经纪人的最低收费是 $39$ 美元。编写程序，要求用户输入交易金额，并输出股票经纪人的佣金
 
-```c title="broker.c" linenums="1"
+```c
 /* broker.c - 计算股票经纪人的佣金 */
 #include <stdio.h>
 
@@ -488,7 +488,7 @@ for (size_t i = 0; i < max_iterations; ++i) {
 
 这个示例程序允许用户输入一个数字 $n$，然后显示 $n$ 行输出，每行包含一个 $1 \sim n$ 的数及其平方值
 
-```c title="square.c" linenums="1"
+```c
 /* square.c - 显示平方表 */
 #include <stdio.h>
 
@@ -535,7 +535,7 @@ Enter number of entries in table: 12
 
 这个示例程序允许用户输入一个整数，程序将输出整数的位数是多少
 
-```c title="numdigit.c" linenums="1"
+```c
 /* numdigit.c - 计算整数的位数 */
 #include <stdio.h>
 
@@ -594,7 +594,7 @@ The number has 2 digit(s).
 > n^2 = (n-1)^2 + (2n - 1)
 > $$
 
-```c title="square2.c" linenums="1"
+```c
 /* square2.c - 改进的平方表计算方法 */
 #include <stdio.h>
 
@@ -632,7 +632,7 @@ $$
     + `base = base * base` （平方）
     + `m >>= 1` （右移一位）
 
-```c title="power.c" linenums="1"
+```c
 /* power.c - 快速幂 */
 #include <stdio.h>
 #include <stdlib.h>

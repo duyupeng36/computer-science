@@ -140,7 +140,7 @@ arr[5]   // ❌ 未定义行为！越界访问
 
 这个示例程序要求用户输入一个十进制整数，示例程序会检查这个整数中是否存在重复的数字
 
-```c title="repdigit.c" linenums="1"
+```c
 /* repdigit.c - 检查数字中是否出现重复数字 */
 #include <stdio.h>
 
@@ -294,7 +294,7 @@ size_t len = sizeof arr / sizeof arr[0];   // 20 / 4 = 5
 
 程序要求用户输入利率和要投资的年数，每年计算一次价值。程序显示显示一个表格，这个表格显示了在几年时间内 $100$ 美元投资在输入利率和紧随其后的 $4$ 个更高的利率下投资的总价值
 
-```c title="interest.c" linenums="1"
+```c
 /* interest.c - 显示投资价值 */
 #include <stdio.h>
 

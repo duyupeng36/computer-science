@@ -92,7 +92,7 @@ int max(int a, int b) {
 
 这个示例程序用于演示函数的声明和定义。在 [阶段1-练习#素数判断](phase1-exercise.md#练习-5素数判断15-分钟) 中我们已经遇见过了。这里我们将素数判断的过程提取到一个函数中
 
-```c title="prime3.c" linenums="1"
+```c
 /* prime3.c - 素数判定函数 */
 #include <stdio.h>
 
@@ -358,7 +358,7 @@ $$
 
 下面的代码给出了欧几里得算法的 C 实现
 
-```c title="gcd2.c" linenums="1"
+```c
 /* gcd2.c - 使用递归实现欧几里得算法 */
 #include <stdio.h>
 #include <assert.h>
@@ -453,7 +453,7 @@ $$
 
 很显然使用 C 语言实现计算斐波拉契数列的第 $n$ 项的代码非常简单
 
-```c title="fib.c" linenums="1"
+```c
 /* fib.c - 斐波拉契数列 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -572,7 +572,7 @@ graph TD
 > [!TIP]
 > 缓存递归的核心思想就是(空间换时间)：用一个数组缓存已计算的值，避免重复计算
 
-```c title="fib2.c" linenums="1"
+```c
 /* fib2.c - 斐波拉契数列(缓存递归) */
 #include <stdio.h>
 #include <stdlib.h>

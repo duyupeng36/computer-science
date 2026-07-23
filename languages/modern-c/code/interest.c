@@ -27,7 +27,7 @@ int main(void) {
     printf("\n");
 
     // 计算每年的投资价值
-    for(int year = 1; year <= years; ++year) {
+    for (int year = 1; year <= years; ++year) {
         printf("%3d   ", year);
         for (size_t i = 0; i < SIZE(value); ++i) {
             // 年复利

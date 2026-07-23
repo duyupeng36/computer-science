@@ -13,13 +13,11 @@ int main(void) {
 
     printf("我想了一个 1~100 的数字，请猜：");
     scanf("%d", &guss);
-    while (guss != number)
-    {
+    while (guss != number) {
         if (guss < number) {
             printf("小了！再猜：");
             scanf("%d", &guss);
-        } else if (guss > number)
-        {
+        } else if (guss > number) {
             printf("大了！再猜：");
             scanf("%d", &guss);
         } else {
